@@ -2,13 +2,20 @@ package org.example.ecommerce.domain.authentication.services;
 
 import org.example.ecommerce.domain.authentication.dto.requests.RoleRequest;
 import org.example.ecommerce.domain.authentication.dto.responses.RoleResponse;
+import org.example.ecommerce.domain.authentication.entity.Role;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface IRoleService {
-    RoleResponse create(RoleRequest request);
+    Optional<Role> findById(Integer id);
 
-    List<RoleResponse> findAll();
+    Role save(Role entity);
 
-    void delete(String role);
+    void delete(Integer id);
+
+    RoleResponse createRole(RoleRequest roleRequest);
+
+    RoleResponse updateRole(Integer roleId, RoleRequest roleRequest);
+
+    void deleteRole(Integer roleId);
 }

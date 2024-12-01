@@ -1,5 +1,6 @@
 package org.example.ecommerce.domain.authentication.dto.responses;
 
+
 import lombok.*;
 
 import java.io.Serializable;
@@ -9,8 +10,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleResponse implements Serializable {
+public class AddressResponse implements Serializable {
     private Integer id;
-    private String name;
-    private String description;
+    private String unitStreet;
+    private String streetNumber;
+    private String addressLine1;
+    private String addressLine2;
 }

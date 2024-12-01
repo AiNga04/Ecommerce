@@ -9,7 +9,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleRequest implements Serializable {
-    private String name;
-    private String description;
+public class UserAddressRequest implements Serializable {
+    private Long addressId;
 }

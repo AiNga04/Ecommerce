@@ -1,4 +1,4 @@
 package org.example.ecommerce.domain.authentication.repositories;
 
-public interface PermissionRepository {
+public interface PermissionRepository{
 }
