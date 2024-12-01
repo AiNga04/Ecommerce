@@ -28,6 +28,11 @@ spring:
       max-request-size: 50MB
       max-file-size: 100MB
 
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+    suffix: .html
+    
 springdoc:
   api-docs:
     enabled: true
