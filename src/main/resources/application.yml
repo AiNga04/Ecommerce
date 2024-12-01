@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: ecommerce-spring-boot
+
+  profiles:
+    active: @spring.profiles.active@
+
+  threads:
+    virtual:
+      enabled: true
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+
+jwt:
+  secret: "2J3LSn1Nu6bpNes0Yz4vkEmzjYmCoA7C6vcAJCO36acfjQZab5SAiQPk+OzGJ4lh"
+  secret-refresh-token: "2J3LSn1Nu6bpNes0Yz4vkEmzjYmCoA7C6vcAJCO36acfjQZab5SAiQPk+OzGJ4lh"
+  secret-change-password: "QWS4EWDQYWXGD77W9jvzLA=="
+  expiration: 86400000
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    root: INFO
+    web: OFF
+    org.springframework: INFO
+    org.apache: OFF
+    kafka: OFF
+
