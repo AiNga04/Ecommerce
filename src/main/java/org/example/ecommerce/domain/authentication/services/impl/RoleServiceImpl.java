@@ -44,7 +44,7 @@ public class RoleServiceImpl implements IRoleService {
         Optional<Role> existingRole = findById(roleId);
         if (existingRole.isPresent()) {
             Role role = existingRole.get();
-            role.setName(roleRequest.getName());
+            role.setRoleName(roleRequest.getName());
             role.setDescription(roleRequest.getDescription());
             Role updatedRole = save(role);
             return RoleMapper.toResponse(updatedRole);

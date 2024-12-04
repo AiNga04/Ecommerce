@@ -1,13 +1,14 @@
 package org.example.ecommerce.domain.authentication.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.example.ecommerce.contract.shared.model.BaseEntity;
 
 import java.io.Serializable;
+import java.util.List;
+
 
 @Entity
 @Table(name = "tbl_user")
@@ -18,6 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User extends BaseEntity<Integer> implements Serializable {
+
     @Column(name = "fullname", nullable = false, length = 255)
     String fullname;
 
@@ -39,6 +41,14 @@ public class User extends BaseEntity<Integer> implements Serializable {
     @Column(name = "password", nullable = false)
     String password;
 
-    @Column(name = "role", nullable = false)
-    String role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Address> addresses; // Mối quan hệ giữa User và Address
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Order> orders; // Mối quan hệ giữa User và Order
 }
+

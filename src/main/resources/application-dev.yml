@@ -11,7 +11,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5433}/ecommerce_data?currentSchema=public
     username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:123456789}
+    password: ${POSTGRES_PASSWORD:123}
     driver-class-name: org.postgresql.Driver
 
   jpa:

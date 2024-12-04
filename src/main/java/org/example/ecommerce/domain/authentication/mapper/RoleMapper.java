@@ -9,7 +9,7 @@ public class RoleMapper {
     // RoleRequest -> Entity
     public static Role toEntity(RoleRequest roleRequest) {
         return Role.builder()
-                .name(roleRequest.getName())
+                .roleName(roleRequest.getName())
                 .description(roleRequest.getDescription())
                 .build();
     }
@@ -18,7 +18,7 @@ public class RoleMapper {
     public static RoleResponse toResponse(Role role) {
         return RoleResponse.builder()
                 .id(role.getId())
-                .name(role.getName())
+                .name(role.getRoleName())
                 .description(role.getDescription())
                 .build();
     }
