@@ -1,13 +1,14 @@
 package org.example.ecommerce.domain.authentication.services;
 
-import org.example.ecommerce.domain.authentication.entity.Address;
-import org.example.ecommerce.domain.authentication.entity.User;
+import org.example.ecommerce.domain.authentication.dto.requests.AddressRequest;
+import org.example.ecommerce.domain.authentication.dto.responses.AddressResponse;
 
 import java.util.List;
 
 public interface IAddressService {
-    Address addAddress(User user, Address address); // Thêm địa chỉ mới cho người dùng
-    List<Address> getAddressesByUser(User user);    // Lấy danh sách địa chỉ của người dùng
-    Address getDefaultAddress(User user);           // Lấy địa chỉ mặc định của người dùng
+    AddressResponse createAddress(AddressRequest addressRequest);
+    AddressResponse updateAddress(Integer id, AddressRequest addressRequest);
+    void deleteAddress(Integer id);
+    List<AddressResponse> getAddressesByUserId(Integer userId);
+    AddressResponse getAddressById(Integer id);
 }
-

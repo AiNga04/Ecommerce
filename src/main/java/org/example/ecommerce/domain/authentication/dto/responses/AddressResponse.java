@@ -1,6 +1,5 @@
 package org.example.ecommerce.domain.authentication.dto.responses;
 
-
 import lombok.*;
 
 import java.io.Serializable;

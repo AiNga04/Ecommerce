@@ -4,6 +4,7 @@ import org.example.ecommerce.domain.authentication.dto.requests.RoleRequest;
 import org.example.ecommerce.domain.authentication.dto.responses.RoleResponse;
 import org.example.ecommerce.domain.authentication.entity.Role;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IRoleService {
@@ -18,4 +19,6 @@ public interface IRoleService {
     RoleResponse updateRole(Integer roleId, RoleRequest roleRequest);
 
     void deleteRole(Integer roleId);
+
+    List<RoleResponse> findAllRoles();
 }
