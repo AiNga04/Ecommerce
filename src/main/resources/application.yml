@@ -1,31 +1,83 @@
+# ====================== Config My SQL ======================
 spring:
   application:
-    name: ecommerce-spring-boot
+    api-prefix: ${API_PREFIX}
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3307/ecommerce
+    username: root
+    password: 123456789
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  main:
+    allow-circular-references: true
 
-  profiles:
-    active: @spring.profiles.active@
 
-  threads:
-    virtual:
-      enabled: true
+  # ======================= Config file upload ==========================
 
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 25MB
+    servlet:
+      session:
+        timeout: 30m
 
-jwt:
-  secret: "2J3LSn1Nu6bpNes0Yz4vkEmzjYmCoA7C6vcAJCO36acfjQZab5SAiQPk+OzGJ4lh"
-  secret-refresh-token: "2J3LSn1Nu6bpNes0Yz4vkEmzjYmCoA7C6vcAJCO36acfjQZab5SAiQPk+OzGJ4lh"
-  secret-change-password: "QWS4EWDQYWXGD77W9jvzLA=="
-  expiration: 86400000
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.orm.jdbc.bind: TRACE
-    root: INFO
-    web: OFF
-    org.springframework: INFO
-    org.apache: OFF
-    kafka: OFF
+  # ======================= Config classpath ==========================
 
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  # ======================= Config JavaMail Sender ==========================
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: phamchien152003@gmail.com
+    password: eqiusgmfsbufeefu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # ======================= Config OAUTH2 ==========================
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 125823470839-pf6vnq8ddfqpuoj8qhvvkiikov0qk51i.apps.googleusercontent.com
+            clientSecret: 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
+            scope: email, profile
+          facebook:
+            clientId: 890093892488847
+            clientSecret: 1ec1723ebbb4baadbd28c78496eafb2a
+
+storage:
+  location: uploads
+
+server:
+  port: ${API_PORT}
+
+payment:
+  vnPay:
+    url: ${PAY_URL}
+    tmnCode: ${TMN_CODE}
+    secretKey: ${SECRET_KEY}
+    returnUrl: ${RETURN_URL}
+    version: ${VERSION}
+    command: ${COMMAND}
+    orderType: ${ORDER_TYPE}
