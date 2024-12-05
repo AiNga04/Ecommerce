@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,7 @@ public class PaymentController {
     IMilkTeaService milkTeaService;
     IBranchService branchService;
     CookieServiceImpl cookieServiceImpl;
+    IVoucherAdminService voucherAdminService;
 
     @GetMapping("")
     private String displayPayment(
@@ -52,6 +54,10 @@ public class PaymentController {
         model.addAttribute("dataJSON", data);
         List<PayMethodEntity> listPayMethod = payMethodService.findAll();
         model.addAttribute("listPayMethod", listPayMethod);
+        var listVouchers = voucherAdminService.getListVoucherAdmin(SecurityContextHolder.getContext()
+                                                                                        .getAuthentication()
+                                                                                        .getName());
+        model.addAttribute("listVouchers", listVouchers.getVoucherDTOs());
         int idUser = Integer.parseInt(cookieServiceImpl.getValue("USER_ID"));
         Optional<UserEntity> optCustomer = userService.findById(idUser);
         if (optCustomer.isPresent()) {
