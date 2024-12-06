@@ -15,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "milk_tea")
+@EntityListeners(MilkTeaEntityListener.class)
 public class MilkTeaEntity implements Serializable {
 
     @Id
