@@ -43,5 +43,5 @@ public class MilkTeaEntityListener {
         log.info("PostRemove: {}", productEntity);
         productRedisService.deleteAllProduct();
     }
-    
+
 }

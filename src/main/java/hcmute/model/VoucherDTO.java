@@ -3,7 +3,10 @@ package hcmute.model;
 import hcmute.entity.Status;
 import hcmute.entity.Voucher;
 import hcmute.entity.VoucherType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.*;
 
