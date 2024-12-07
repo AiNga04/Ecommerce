@@ -1,9 +1,9 @@
 package hcmute.presentation.mvc.admin;
 
-import hcmute.application.service.Notification;
-import hcmute.application.service.NotificationService;
+import hcmute.dto.request.NotificationRequest;
+import hcmute.service.impl.NotificationService;
 import hcmute.entity.Order;
-import hcmute.entity.Status;
+import hcmute.model.enums.Status;
 import hcmute.model.OrderModel;
 import hcmute.service.IOrderService;
 import lombok.RequiredArgsConstructor;
@@ -63,12 +63,13 @@ public class UserOrderAdminController {
                 // implement websocket to send notification to user
                 String userId = String.valueOf(entity.getCustomerByOrder().getId());
                 notificationService.sendNotification(
-                        String.valueOf(2),
-                        Notification.builder()
-                                    .status(Status.ORDER)
-                                    .message("Đơn hàng của bạn đã được cập nhật")
-                                    .orderId("Mã đơn hàng: " + entity.getIdOrder())
-                                    .build()
+                        userId,
+                        NotificationRequest.builder()
+                                           .title("Cập nhật trạng thái đơn hàng")
+                                           .content("Đơn hàng " + entity.getIdOrder() + " đã được cập nhật")
+                                           .orderId("Mã đơn hàng: " + entity.getIdOrder())
+                                           .status(Status.ORDER)
+                                           .build()
                 );
 
                 // save user order

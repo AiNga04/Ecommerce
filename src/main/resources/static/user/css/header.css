@@ -208,18 +208,6 @@
     text-decoration: none;
 }
 
-.chat-message {
-    padding: 10px;
-    margin: 15px 0;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-}
-
-.message-content {
-    font-size: 14px;
-    color: #333;
-}
-
 .notification-bell {
     font-size: 24px;
     color: red;
@@ -233,8 +221,15 @@
     right: 0px;
     left: auto;
     display: none; /* Initially hidden */
-    transform: translate3d(-45px, -113.544px, 0px); /* Apply the transform directly */
+    position: absolute;
+    transform: translate3d(-25px, 20px, 0px); /* Adjust as needed */
+    width: 300px; /* Make the dropdown wider */
+    padding: 10px; /* Add padding for better spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* White background */
 }
+
 
 .list-group-item {
     padding: 10px;
@@ -242,9 +237,12 @@
     margin-bottom: 5px;
     border-radius: 5px;
     background-color: #fff;
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
 }
 
 .list-group-item strong {
     display: block;
     color: #333;
+    margin-bottom: 5px; /* Add space between strong elements */
 }

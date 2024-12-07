@@ -27,41 +27,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Order(Ordered.HIGHEST_PRECEDENCE + 99)
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
-//    private final HttpSessionHandshakeInterceptor httpSessionHandshakeInterceptor;
-//
-//    @Override
-//    public void configureMessageBroker(MessageBrokerRegistry registry) {
-//        registry.enableSimpleBroker("/chat", "/notification");
-//    }
-//
-//    @Override
-//    public void registerStompEndpoints(StompEndpointRegistry registry) {
-//        registry.addEndpoint("/ws").setAllowedOrigins("*");
-//        registry.addEndpoint("/ws")
-//                .setHandshakeHandler(defaultHandshakeHandler())
-//                .setAllowedOriginPatterns("*")
-//                .withSockJS()
-//                .setInterceptors(httpSessionHandshakeInterceptor);
-//    }
-//
-//    private DefaultHandshakeHandler defaultHandshakeHandler() {
-//        return new DefaultHandshakeHandler() {
-//            @Override
-//            protected Principal determineUser(
-//                    @NotNull ServerHttpRequest request,
-//                    @NotNull WebSocketHandler wsHandler,
-//                    @NotNull Map<String, Object> attributes
-//            ) {
-//                Principal principal = request.getPrincipal();
-//                if (principal == null) {
-//                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//                    authorities.add(new SimpleGrantedAuthority("ANONYMOUS"));
-//                    principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
-//                }
-//                return principal;
-//            }
-//        };
-//    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

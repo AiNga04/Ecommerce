@@ -1,4 +1,4 @@
-package hcmute.model;
+package hcmute.model.enums;
 
 public enum AuthProvider {
     DATABASE,

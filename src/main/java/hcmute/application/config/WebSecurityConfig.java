@@ -2,6 +2,7 @@ package hcmute.application.config;
 
 import hcmute.entity.CartEntity;
 import hcmute.entity.UserEntity;
+import hcmute.model.enums.UserType;
 import hcmute.service.ICartService;
 import hcmute.service.IUserService;
 import hcmute.infrastruture.security.CustomUserDetails;
@@ -36,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final List<String> PUBLIC_APIS = List.of(
             "/ws/**",
             "/home/**", "/security/**", "/api/places", "/security/verify/**", "/oauth2/**",
-            "/oauth/authorize", "/**/*.css", "/**/*.js", "/api/v1/payment/**"
+            "/oauth/authorize", "/**/*.css", "/**/*.js", "/api/v1/payment/**", "/notifications/**"
     );
     @Autowired
     IUserService userService;
@@ -90,9 +91,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(PUBLIC_APIS.toArray(String[]::new))
             .permitAll()
             // Phải có quyền MANAGER
-            .antMatchers("/manager/index", "/manager/**").hasAuthority("MANAGER")
+            .antMatchers("/manager/index", "/manager/**").hasAuthority(UserType.MANAGER.name())
             // Phải có quyền ADMIN
-            .antMatchers("/admin/index", "/admin/**", "/admin/branch/**").hasAuthority("ADMIN")
+            .antMatchers("/admin/index", "/admin/**", "/admin/branch/**").hasAuthority(UserType.ADMIN.name())
             // Đường dẫn còn phải phải đăng nhập
             .anyRequest().authenticated();
 

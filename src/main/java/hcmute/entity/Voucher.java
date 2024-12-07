@@ -1,5 +1,7 @@
 package hcmute.entity;
 
+import hcmute.model.enums.Status;
+import hcmute.model.enums.VoucherType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

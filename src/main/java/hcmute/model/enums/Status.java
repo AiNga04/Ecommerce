@@ -1,6 +1,7 @@
-package hcmute.entity;
+package hcmute.model.enums;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import hcmute.entity.StatusDeserializer;
 import lombok.Getter;
 
 @Getter

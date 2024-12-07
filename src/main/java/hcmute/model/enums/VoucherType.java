@@ -1,4 +1,4 @@
-package hcmute.entity;
+package hcmute.model.enums;
 
 public enum VoucherType {
     PERCENTAGE_SHOP,

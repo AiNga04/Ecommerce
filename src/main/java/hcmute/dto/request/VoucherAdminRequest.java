@@ -1,8 +1,8 @@
 package hcmute.dto.request;
 
-import hcmute.entity.Status;
+import hcmute.model.enums.Status;
 import hcmute.entity.Voucher;
-import hcmute.entity.VoucherType;
+import hcmute.model.enums.VoucherType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

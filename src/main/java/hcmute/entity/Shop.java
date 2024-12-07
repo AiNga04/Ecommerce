@@ -1,5 +1,6 @@
 package hcmute.entity;
 
+import hcmute.model.enums.Status;
 import lombok.*;
 
 import javax.persistence.*;

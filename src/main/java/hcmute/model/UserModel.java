@@ -4,6 +4,7 @@ import hcmute.entity.BranchEntity;
 import hcmute.entity.CartEntity;
 import hcmute.entity.Order;
 import hcmute.entity.UserRoleEntity;
+import hcmute.model.enums.AuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

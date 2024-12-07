@@ -30,10 +30,11 @@
 
     request.setAttribute("types", types);
     Cookie[] cookies = request.getCookies();
+    int idUser = 0;
     if (cookies != null) {
         for (Cookie cookie : cookies) {
             if ("USER_ID".equals(cookie.getName())) {
-                int idUser = Integer.parseInt(cookie.getValue());
+                idUser = Integer.parseInt(cookie.getValue());
                 request.setAttribute("user_id", idUser);
                 break;
             }
@@ -64,6 +65,7 @@
             referrerpolicy="no-referrer"
             rel="stylesheet"
     />
+
 </head>
 <body>
     <header class="header">
@@ -160,51 +162,80 @@
             </div>
         </div>
     </header>
-
+    <%--    https://stackoverflow.com/questions/18271251/typeerror-ajax-is-not-a-function--%>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+
     <script>
         const BASE_URL = "http://localhost:8081/ws";
         const CHAT_CHANNEL = "/app/notify";
         const NOTIFICATION_CHANNEL = "/topic/notification";
+        const AUTHORIZATION_TOKEN = "<%= idUser %>"; // Get userId from server-side
 
         const connect = (url) => {
             const sockJS = new SockJS(url);
             return Stomp.over(sockJS, {protocol: ["v12.stomp"]});
         };
 
-        <%--const genChatMsg = (msg) => {--%>
-        <%--    const elmBoxChat = document.querySelector("#box-chat");--%>
-        <%--    elmBoxChat.insertAdjacentHTML(--%>
-        <%--        "beforeend",--%>
-        <%--        `--%>
-        <%--			<div class="chat-message">--%>
-        <%--				<span class="message-content">--%>
-        <%--					<strong>Status:</strong> ${msg.status}<br>--%>
-        <%--					<strong>Message:</strong> ${msg.message}<br>--%>
-        <%--					<strong>Order ID:</strong> ${msg.orderId}--%>
-        <%--				</span>--%>
-        <%--			</div>--%>
-        <%--		`--%>
-        <%--    );--%>
-        <%--};--%>
+        const fetchNotifications = (AUTHORIZATION_TOKEN) => {
+            const temp = `http://localhost:8081/notifications?Authorization=` + AUTHORIZATION_TOKEN;
+            $.ajax({
+                url: temp,
+                method: "GET",
+                success: function (response) {
+                    const notifications = response.data.items;
+                    notifications.forEach((notification) => addNotification(notification));
+                },
+                error: function (error) {
+                    console.error("Error fetching notifications:", error);
+                },
+            });
+        };
 
-        const addNotification = (msg) => {
+        const addNotification = (notification) => {
             const notificationList = document.getElementById("notification-list");
-            notificationList.insertAdjacentHTML(
-                "beforeend",
-                `
-            <li class="list-group-item">
-                <strong>Status:</strong> ${msg.status}<br>
-                <strong>Message:</strong> ${msg.message}<br>
-                <strong>Order ID:</strong> ${msg.orderId}
-            </li>
-        `
-            );
+            if (!notificationList) {
+                console.error("#notification-list không tồn tại");
+                return;
+            }
+
+            // Tạo phần tử <li>
+            const listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+
+            // Tạo phần tử con cho status (chỉ Status in đậm)
+            const statusElement = document.createElement('strong');
+            statusElement.textContent = 'Status: ';  // 'Status' in đậm
+            const statusText = document.createElement('span');
+            statusText.textContent = notification.status;  // Phần giá trị status không in đậm
+
+            // Tạo phần tử con cho message
+            const messageElement = document.createElement('strong');
+            messageElement.textContent = 'Content: ';  // 'Message' in đậm
+            const messageText = document.createElement('span');
+            messageText.textContent = notification.content;  // Phần giá trị message không in đậm
+
+            // Tạo phần tử con cho order ID
+            const orderIdElement = document.createElement('strong');
+            orderIdElement.textContent = 'Order ID: ';  // 'Order ID' in đậm
+            const orderIdText = document.createElement('span');
+            orderIdText.textContent = notification.orderId;  // Phần giá trị orderId không in đậm
+
+            // Append các phần tử vào listItem
+            listItem.appendChild(statusElement);
+            listItem.appendChild(statusText);  // Giá trị của status không in đậm
+            listItem.appendChild(document.createElement('br'));  // Thêm dòng mới
+            listItem.appendChild(messageElement);
+            listItem.appendChild(messageText);  // Giá trị của message không in đậm
+            listItem.appendChild(document.createElement('br'));  // Thêm dòng mới
+            listItem.appendChild(orderIdElement);
+            listItem.appendChild(orderIdText);  // Giá trị của orderId không in đậm
+
+            // Thêm <li> vào notificationList
+            notificationList.appendChild(listItem);
         };
 
         const saveNotificationToLocalStorage = (msg) => {
@@ -220,7 +251,8 @@
 
         $(document)
             .ready(() => {
-                loadNotificationsFromLocalStorage();
+                // loadNotificationsFromLocalStorage();
+                fetchNotifications(AUTHORIZATION_TOKEN);
 
                 const stompClient = connect(BASE_URL);
 
@@ -228,9 +260,10 @@
                     console.log("FRAME:", frame);
 
                     // user/user_id/notifications
-                    const userId = 2;
 
-                    stompClient.subscribe(`/user/${2}/notifications`, (data) => {
+                    const subUrl = '/user/' + AUTHORIZATION_TOKEN + '/notifications';
+
+                    stompClient.subscribe(subUrl, (data) => {
                         console.log("Receive data: ", data);
                         const {body} = data;
                         const contents = JSON.parse(body);
@@ -247,13 +280,6 @@
                         saveNotificationToLocalStorage(body);
                     });
                 });
-
-                $("#send")
-                    .click(() => {
-                        const message = $("#chat")
-                            .val();
-                        stompClient.send(CHAT_CHANNEL, {}, message);
-                    });
 
                 $("#notification-bell")
                     .click((event) => {
@@ -276,6 +302,5 @@
                     });
             });
     </script>
-
 </body>
 </html>

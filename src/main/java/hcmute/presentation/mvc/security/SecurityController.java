@@ -1,7 +1,7 @@
 package hcmute.presentation.mvc.security;
 
 import hcmute.entity.UserEntity;
-import hcmute.model.AuthProvider;
+import hcmute.model.enums.AuthProvider;
 import hcmute.repository.UserRepository;
 import hcmute.service.IForgotPasswordService;
 import hcmute.service.IUserService;

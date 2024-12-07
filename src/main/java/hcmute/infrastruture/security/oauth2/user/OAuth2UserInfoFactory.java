@@ -1,7 +1,7 @@
 package hcmute.infrastruture.security.oauth2.user;
 
 import hcmute.exception.OAuth2AuthenticationProcessingException;
-import hcmute.model.AuthProvider;
+import hcmute.model.enums.AuthProvider;
 
 import java.util.Map;
 

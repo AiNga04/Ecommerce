@@ -102,6 +102,7 @@
     const BASE_URL = "http://localhost:8081/ws";
     const CHAT_CHANNEL = "/app/notify";
     const NOTIFICATION_CHANNEL = "/topic/notification";
+    const AUTHORIZATION_TOKEN = "2"; // Replace with actual token
 
     const connect = (url) => {
         const sockJS = new SockJS(url);
@@ -115,8 +116,8 @@
             `
         <div class="chat-message">
             <span class="message-content">
-                <strong>Status:</strong> ${msg.status}<br>
-                <strong>Message:</strong> ${msg.message}<br>
+                <strong>Status:</strong> ${msg.title}<br>
+                <strong>Message:</strong> ${msg.content}<br>
                 <strong>Order ID:</strong> ${msg.orderId}
             </span>
         </div>
@@ -130,12 +131,26 @@
             "beforeend",
             `
             <li class="list-group-item">
-                <strong>Status:</strong> ${msg.status}<br>
-                <strong>Message:</strong> ${msg.message}<br>
-                <strong>Order ID:</strong> ${msg.orderId}
+                <strong>Title:</strong> ${msg.title}<br>
+                <strong>Content:</strong> ${msg.content}<br>
+                <strong>Data:</strong> ${msg.data}
             </li>
         `
         );
+    };
+
+    const fetchNotifications = (AUTHORIZATION_TOKEN) => {
+        $.ajax({
+            url: `http://localhost:8081/notifications?Authorization=${AUTHORIZATION_TOKEN}`,
+            method: "GET",
+            success: function (response) {
+                const notifications = response.data.items;
+                notifications.forEach((notification) => addNotification(notification));
+            },
+            error: function (error) {
+                console.error("Error fetching notifications:", error);
+            },
+        });
     };
 
     const saveNotificationToLocalStorage = (msg) => {
@@ -151,7 +166,9 @@
 
     $(document)
         .ready(() => {
-            loadNotificationsFromLocalStorage();
+            // loadNotificationsFromLocalStorage();
+            
+            fetchNotifications(AUTHORIZATION_TOKEN);
 
             const stompClient = connect(BASE_URL);
 
@@ -175,7 +192,6 @@
                     console.log("Notification: ", body);
                     genChatMsg(body);
                     addNotification(body);
-                    saveNotificationToLocalStorage(body);
                 });
             });
 
