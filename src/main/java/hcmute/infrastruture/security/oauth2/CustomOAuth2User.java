@@ -1,5 +1,6 @@
 package hcmute.infrastruture.security.oauth2;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -9,6 +10,7 @@ import java.util.Map;
 //Bao bọc thông tin người dùng từ đối tượng OAuth2User
 public class CustomOAuth2User implements OAuth2User {
     private final OAuth2User oauth2User;
+    @Getter
     private final String oauth2ClientName;
 
     public CustomOAuth2User(OAuth2User oauth2User, String oauth2ClientName) {
@@ -39,9 +41,4 @@ public class CustomOAuth2User implements OAuth2User {
     public String getEmail() {
         return oauth2User.getAttribute("email");
     }
-
-    public String getOauth2ClientName() {
-        return this.oauth2ClientName;
-    }
-
 }

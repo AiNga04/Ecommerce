@@ -1,6 +1,7 @@
 package hcmute.infrastruture.security;
 
 import hcmute.entity.UserEntity;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
     private static final long serialVersionUID = 1L;
+    @Getter
     private String userId;
     private UserEntity user;
 
@@ -26,10 +28,6 @@ public class CustomUserDetails implements UserDetails {
     }
 
     // Các phương thức khác của UserDetails
-
-    public String getUserId() {
-        return userId;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
