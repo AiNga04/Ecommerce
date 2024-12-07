@@ -1,9 +1,8 @@
 package hcmute.presentation.mvc.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hcmute.entity.BranchEntity;
-import hcmute.entity.CartEntity;
-import hcmute.entity.MilkTeaEntity;
+import hcmute.entity.*;
+import hcmute.model.CommentDTO;
 import hcmute.model.MilkTeaModel;
 import hcmute.model.OrderProduct;
 import hcmute.model.OrderProduct.OrderItem;
@@ -11,27 +10,26 @@ import hcmute.service.*;
 import hcmute.service.impl.CookieServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 @RequestMapping("product_detail")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
+@Slf4j
 public class ProductsDetailController {
     IMilkTeaService milkTeaService;
     ICartDetailService cartDetailService;
@@ -40,8 +38,14 @@ public class ProductsDetailController {
     CookieServiceImpl cookieServiceImpl;
     ICartService cartService;
 
+    @Autowired
+    ICommentService commentService;
+
+    @Autowired
+    IUserService userService;
+
     @GetMapping("/{id}")
-    public ModelAndView detail(ModelMap model, @PathVariable("id") int id, RedirectAttributes redirectAttributes) {
+    public ModelAndView detail(ModelMap model, @PathVariable("id") int id) {
         Optional<MilkTeaEntity> optMilkTea = milkTeaService.findByIdMilkTea(id);
         MilkTeaModel milkTeaModel = new MilkTeaModel();
 
@@ -58,12 +62,10 @@ public class ProductsDetailController {
 
             List<MilkTeaEntity> relevantProducts = milkTeaService.findRelevantProducts(typeId, id);
 
-            // get flash attributes from previous request
-            String cartMessage = (String) redirectAttributes.getFlashAttributes().get("cartMessage");
+            // Lấy tất cả bình luận của sản phẩm
+            List<CommentDTO> comments = commentService.findAllWithUser();
 
-            if (cartMessage != null) {
-                model.addAttribute("cartMessage", cartMessage);
-            }
+            model.addAttribute("comments", comments);
 
             model.addAttribute("milkTea", milkTeaModel);
             model.addAttribute("relevantProducts", relevantProducts);
@@ -74,6 +76,39 @@ public class ProductsDetailController {
         model.addAttribute("message", "Sản phẩm này không tồn tại");
         return new ModelAndView("user/error", model);
     }
+
+    @PostMapping("/{id}/comment")
+    public String addComment(@PathVariable("id") int productId,
+                             @RequestParam String reviewText,
+                             @RequestParam String commentText,
+                             @AuthenticationPrincipal UserEntity user, // Tự động lấy người dùng đang đăng nhập
+                             ModelMap model) {
+
+        log.info("Add comment to product {}.", productId);
+        Optional<MilkTeaEntity> milkTeaOpt = milkTeaService.findByIdMilkTea(productId);
+        if (!milkTeaOpt.isPresent()) {
+            log.info("MilkTea {} not found.", productId);
+            model.addAttribute("message", "Sản phẩm không tồn tại.");
+            return "redirect:/product_detail/" + productId;
+        }
+
+        MilkTeaEntity milkTea = milkTeaOpt.get();
+
+        // Tạo đối tượng Comment và lưu vào DB
+        Comment comment = Comment.builder()
+                .reviewText(reviewText)
+                .milkTea(milkTea)
+                .comment(commentText)
+                .user(user)
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .build();
+
+        commentService.save(comment);
+
+        return "redirect:/product_detail/" + productId;
+    }
+
 
     @GetMapping("/check")
     public String check(ModelMap model, @RequestParam("data") String data) {

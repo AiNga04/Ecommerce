@@ -64,4 +64,7 @@ public class UserEntity implements Serializable {
 
     @OneToMany(mappedBy = "customerByOrder")
     private Set<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 }
