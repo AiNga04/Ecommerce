@@ -2,6 +2,7 @@ package hcmute.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hcmute.model.AuthProvider;
+import hcmute.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class UserEntity implements Serializable {
     private String username;
     private String password;
     private String email;
+    private Status status;
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;

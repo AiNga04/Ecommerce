@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @JsonDeserialize(using = StatusDeserializer.class)
 public enum Status {
-
     ACTIVE("Active"),
     INACTIVE("Inactive"),
     DELETED("Deleted"),
@@ -28,6 +27,8 @@ public enum Status {
     LOCKED("Locked");
 
     private final String value;
+
+
 
     Status(String value) {
         this.value = value;
