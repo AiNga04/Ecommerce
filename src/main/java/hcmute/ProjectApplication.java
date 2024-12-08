@@ -1,7 +1,7 @@
 package hcmute;
 
-import hcmute.application.config.CustomSiteMeshFilter;
-import hcmute.application.config.StorageProperties;
+import hcmute.config.CustomSiteMeshFilter;
+import hcmute.config.StorageProperties;
 import hcmute.service.IStorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

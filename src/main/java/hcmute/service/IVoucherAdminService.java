@@ -3,9 +3,9 @@ package hcmute.service;
 import hcmute.dto.request.VoucherAdminRequest;
 import hcmute.dto.response.ListVoucherAdminResponse;
 import hcmute.dto.response.VoucherAdminResponse;
-import hcmute.model.enums.Status;
+import hcmute.entity.Status;
 import hcmute.entity.Voucher;
-import hcmute.model.enums.VoucherType;
+import hcmute.entity.VoucherType;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface IVoucherAdminService {

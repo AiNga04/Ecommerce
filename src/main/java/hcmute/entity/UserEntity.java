@@ -1,8 +1,7 @@
 package hcmute.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import hcmute.model.enums.AuthProvider;
+import hcmute.model.AuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,20 +23,14 @@ public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String username;
-
     private String password;
-
     private String email;
 
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
-
     private Boolean enabled;
-
     private String verify_code;
-
     private String reset_pwd_token;
 
     @Column(name = "surname", columnDefinition = "nvarchar(50)")
@@ -71,9 +64,4 @@ public class UserEntity implements Serializable {
 
     @OneToMany(mappedBy = "customerByOrder")
     private Set<Order> orders;
-
-    @OneToMany(mappedBy = "userEntity")
-    @JsonBackReference
-//    @ToStringExclude
-    private List<Notification> notifications;
 }

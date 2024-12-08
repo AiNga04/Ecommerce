@@ -3,7 +3,7 @@ package hcmute.service.impl;
 import hcmute.entity.RoleEntity;
 import hcmute.entity.UserEntity;
 import hcmute.entity.UserRoleEntity;
-import hcmute.model.enums.AuthProvider;
+import hcmute.model.AuthProvider;
 import hcmute.repository.RoleRepository;
 import hcmute.repository.UserRepository;
 import hcmute.repository.UserRoleRepository;

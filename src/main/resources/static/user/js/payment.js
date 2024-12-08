@@ -23,16 +23,11 @@ function convertToDateTime(dateString) {
     const date = new Date(dateString);
 
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1)
-        .padStart(2, "0");
-    const day = String(date.getDate())
-        .padStart(2, "0");
-    const hours = String(date.getHours())
-        .padStart(2, "0");
-    const minutes = String(date.getMinutes())
-        .padStart(2, "0");
-    const seconds = String(date.getSeconds())
-        .padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
 
     const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
@@ -52,8 +47,7 @@ function convertToVal(str) {
 finalPrice.textContent = convertToVal(price.textContent) + convertToVal(fee.textContent) + "đ";
 
 paymentBtn.addEventListener("click", function () {
-    var dataJSON = document.querySelector(".payment-content")
-                           .getAttribute("data-name");
+    var dataJSON = document.querySelector(".payment-content").getAttribute("data-name");
     console.log(dataJSON);
     data = JSON.parse(dataJSON);
     var orderData = {};
@@ -104,6 +98,7 @@ paymentBtn.addEventListener("click", function () {
     // myAnchor.click();
 
     if (check) {
+        console.log("check");
         fetch(`/api/v1/payment/vn-pay?amount=${orderData.finalPrice}&bankCode=NCB&data=${encodedData}`)
             .then((response) => response.json())
             .then((data) => {
@@ -117,10 +112,6 @@ paymentBtn.addEventListener("click", function () {
                 console.error("Error initiating payment:", error);
                 alert("An error occurred while initiating payment.");
             });
-        console.log("not check");
-        const myAnchor = document.createElement("a");
-        myAnchor.setAttribute("href", `/payment/order?data=${encodedData}`);
-        myAnchor.click();
     } else {
         console.log("not check");
         const myAnchor = document.createElement("a");

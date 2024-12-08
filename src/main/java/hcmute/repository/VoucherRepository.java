@@ -1,9 +1,9 @@
 package hcmute.repository;
 
 import hcmute.entity.Shop;
-import hcmute.model.enums.Status;
+import hcmute.entity.Status;
 import hcmute.entity.Voucher;
-import hcmute.model.enums.VoucherType;
+import hcmute.entity.VoucherType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

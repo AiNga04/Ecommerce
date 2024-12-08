@@ -23,4 +23,5 @@ public class CartDetailId implements Serializable {
 
     @Column(name = "size", columnDefinition = "nvarchar(50)")
     private String size;
+
 }

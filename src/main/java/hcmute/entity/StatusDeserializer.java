@@ -3,7 +3,6 @@ package hcmute.entity;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import hcmute.model.enums.Status;
 
 import java.io.IOException;
 

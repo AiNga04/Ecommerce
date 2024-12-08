@@ -1,3 +1,4 @@
+# ====================== Config My SQL ======================
 spring:
   application:
     api-prefix: ${API_PREFIX}
@@ -10,38 +11,40 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:ecommerce}?useSSL=true&serverTimezone=UTC
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:123456789}
+    url: jdbc:mysql://localhost:3307/ecommerce
+    username: root
+    password: 123456789
     driver-class-name: com.mysql.cj.jdbc.Driver
-
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
-
   main:
     allow-circular-references: true
+
+
+  # ======================= Config file upload ==========================
 
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 25MB
+    servlet:
+      session:
+        timeout: 30m
 
-  session:
-    timeout: 30m
+
+  # ======================= Config classpath ==========================
 
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
 
+  # ======================= Config JavaMail Sender ==========================
+
   mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    host: smtp.gmail.com
+    port: 587
+    username: phamchien152003@gmail.com
+    password: eqiusgmfsbufeefu
     properties:
       mail:
         smtp:
@@ -49,17 +52,19 @@ spring:
           starttls:
             enable: true
 
+  # ======================= Config OAUTH2 ==========================
+
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: ${GOOGLE_CLIENT_ID}
-            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            clientId: 125823470839-pf6vnq8ddfqpuoj8qhvvkiikov0qk51i.apps.googleusercontent.com
+            clientSecret: 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
             scope: email, profile
           facebook:
-            clientId: ${FACEBOOK_CLIENT_ID}
-            clientSecret: ${FACEBOOK_CLIENT_SECRET}
+            clientId: 890093892488847
+            clientSecret: 1ec1723ebbb4baadbd28c78496eafb2a
 
 storage:
   location: uploads

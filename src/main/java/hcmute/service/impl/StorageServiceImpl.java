@@ -1,6 +1,6 @@
 package hcmute.service.impl;
 
-import hcmute.application.config.StorageProperties;
+import hcmute.config.StorageProperties;
 import hcmute.exception.StorageException;
 import hcmute.service.IStorageService;
 import org.apache.commons.io.FilenameUtils;
