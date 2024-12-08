@@ -209,7 +209,10 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="cart-btn-submit payment-btn">Đặt hàng</button>
+                    <button class="cart-btn-submit payment-btn"
+                            onclick="location.href='/order-status?idOrder=${userOrder.idOrder}'">
+                        Đặt hàng
+                    </button>
                 </div>
             </div>
         </div>
