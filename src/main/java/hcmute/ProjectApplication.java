@@ -33,5 +33,4 @@ public class ProjectApplication {
             storageService.init();
         });
     }
-
 }

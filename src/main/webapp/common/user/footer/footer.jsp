@@ -44,7 +44,7 @@
 
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 footer-content">
                     <img
-                            src="https://i.pinimg.com/564x/c9/00/23/c90023ffa7e711b6e533af01c5dfc19f.jpg"
+                            src="https://png.pngtree.com/png-clipart/20230520/original/pngtree-cute-mobile-phone-png-image_9166372.png"
                             alt="Logo thương hiệu"/>
                     <div class="footer-social d-flex">
                         <p class="me-4" style="font-size: 28px">

@@ -44,6 +44,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%--    <link rel="shortcut icon" href="../img/favicon.ico" />--%>
     <link href='<c:url value="/user/css/header.css" />' rel="stylesheet"/>
     <meta
             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
@@ -69,7 +70,7 @@
     <header class="header">
         <div class="container-left">
             <a class="d-block" href="/home"> <img
-                    src="https://raw.githubusercontent.com/ThaiVanHandSome/logo/master/alotra-high-resolution-logo-black-transparent.png"
+                    src="https://raw.githubusercontent.com/AiNga04/image/refs/heads/main/logo.png"
                     class="logo"/>
             </a>
             <ul class="nav-list">
@@ -108,11 +109,10 @@
             </div>
         </form>
 
-        <%--		notificaiton--%>
         <div class="dropdown">
             <i class="fa fa-bell notification-bell" id="notification-bell"></i>
-            <ul class="dropdown-menu dropdown-menu-end" id="notification-list">
-                <!-- Notifications will be appended here -->
+            <ul class="dropdown-menu dropdown-menu-end" id="notification-list" style="display: none;">
+                <!-- Notifications will be dynamically added here -->
             </ul>
         </div>
 
@@ -177,21 +177,21 @@
             return Stomp.over(sockJS, {protocol: ["v12.stomp"]});
         };
 
-        <%--const genChatMsg = (msg) => {--%>
-        <%--    const elmBoxChat = document.querySelector("#box-chat");--%>
-        <%--    elmBoxChat.insertAdjacentHTML(--%>
-        <%--        "beforeend",--%>
-        <%--        `--%>
-        <%--			<div class="chat-message">--%>
-        <%--				<span class="message-content">--%>
-        <%--					<strong>Status:</strong> ${msg.status}<br>--%>
-        <%--					<strong>Message:</strong> ${msg.message}<br>--%>
-        <%--					<strong>Order ID:</strong> ${msg.orderId}--%>
-        <%--				</span>--%>
-        <%--			</div>--%>
-        <%--		`--%>
-        <%--    );--%>
-        <%--};--%>
+        const genChatMsg = (msg) => {
+            const elmBoxChat = document.querySelector("#box-chat");
+            elmBoxChat.insertAdjacentHTML(
+                "beforeend",
+                `
+        <div class="chat-message">
+            <span class="message-content">
+                <strong>Status:</strong> ${msg.status}<br>
+                <strong>Message:</strong> ${msg.message}<br>
+                <strong>Order ID:</strong> ${msg.orderId}
+            </span>
+        </div>
+    `
+            );
+        };
 
         const addNotification = (msg) => {
             const notificationList = document.getElementById("notification-list");
@@ -230,11 +230,11 @@
                     // user/user_id/notifications
                     const userId = 2;
 
-                    stompClient.subscribe(`/user/${2}/notifications`, (data) => {
+                    stompClient.subscribe(`/user/${userId}/notifications`, (data) => {
                         console.log("Receive data: ", data);
                         const {body} = data;
                         const contents = JSON.parse(body);
-                        // genChatMsg(contents);
+                        genChatMsg(contents);
                         addNotification(contents);
                         saveNotificationToLocalStorage(contents);
                     });
@@ -242,7 +242,7 @@
                     stompClient.subscribe(NOTIFICATION_CHANNEL, (data) => {
                         const {body} = data;
                         console.log("Notification: ", body);
-                        // genChatMsg(body);
+                        genChatMsg(body);
                         addNotification(body);
                         saveNotificationToLocalStorage(body);
                     });
@@ -262,7 +262,8 @@
                         if (notificationList.is(":visible")) {
                             notificationList.hide();
                         } else {
-                            notificationList.show();
+                            notificationList.css("transform", "translate3d(-45px, -113.544px, 0px)")
+                                .show();
                         }
                     });
 
