@@ -25,7 +25,9 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
           integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <%--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"--%>
+    <%--            type="text/javascript"></script>--%>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             type="text/javascript"></script>
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -231,20 +233,20 @@
                     </div>
 
                     <div class="mb-4">
-                            <h4>Phương thức thanh toán</h4>
+                        <h4>Phương thức thanh toán</h4>
 
-                            <!-- Lặp qua danh sách phương thức thanh toán và tạo radiobutton -->
-                            <c:forEach var="paymentMethod" items="${listPayMethod}">
-                                <div class="form-check">
-                                    <input class="form-check-input-radio" type="radio"
-                                           data-id="${paymentMethod.idPayMethod}" name="payMethodByOrder"
-                                           id="flexRadioDefault${paymentMethod.idPayMethod}"/> <label
-                                        class="form-check-label"
-                                        for="flexRadioDefault${paymentMethod.idPayMethod}">
-                                        ${paymentMethod.name} </label>
-                                </div>
-                            </c:forEach>
-                        </div>
+                        <!-- Lặp qua danh sách phương thức thanh toán và tạo radiobutton -->
+                        <c:forEach var="paymentMethod" items="${listPayMethod}">
+                            <div class="form-check">
+                                <input class="form-check-input-radio" type="radio"
+                                       data-id="${paymentMethod.idPayMethod}" name="payMethodByOrder"
+                                       id="flexRadioDefault${paymentMethod.idPayMethod}"/> <label
+                                    class="form-check-label"
+                                    for="flexRadioDefault${paymentMethod.idPayMethod}">
+                                    ${paymentMethod.name} </label>
+                            </div>
+                        </c:forEach>
+                    </div>
                     <ul class="list-group mt-3" id="voucherList">
                         <%-- Example vouchers, replace with dynamic content --%>
                         <li class="list-group-item" data-code="VOUCHER1" data-discount="10000">Voucher 1 - Giảm 10,000
