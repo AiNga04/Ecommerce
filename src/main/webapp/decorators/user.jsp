@@ -50,10 +50,10 @@
     <%@ include file="/common/user/footer/footer.jsp" %>
 
     <!-- JS -->
-    <%--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"--%>
-    <%--            type="text/javascript"></script>--%>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" type="text/javascript"></script>
-
+    <%--	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"--%>
+    <%--		type="text/javascript"></script>--%>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            type="text/javascript"></script>
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             type="text/javascript"></script>
@@ -61,7 +61,6 @@
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             type="text/javascript"></script>
     <script type="text/javascript" src="https://popupsmart.com/freechat.js"></script>
-
     <script>
         window.start.init({
             title: "AloTra support",

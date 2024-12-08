@@ -13,21 +13,16 @@
         import="org.springframework.web.context.support.WebApplicationContextUtils" %>
 <%
     WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(application);
-
 // Retrieve the beans
     IMilkTeaCategoryService milkTeaCategoryService = context.getBean(IMilkTeaCategoryService.class);
     IMilkTeaTypeService milkTeaTypeService = context.getBean(IMilkTeaTypeService.class);
-
     List<MilkTeaCategoryEntity> categories = milkTeaCategoryService.findAll();
     List<List<MilkTeaTypeEntity>> types = new ArrayList<>();
-
     request.setAttribute("categories", categories);
-
     for (MilkTeaCategoryEntity category : categories) {
         List<MilkTeaTypeEntity> typesForCategory = milkTeaTypeService.findAllByCategoryId(category.getIdCategory());
         types.add(typesForCategory);
     }
-
     request.setAttribute("types", types);
     Cookie[] cookies = request.getCookies();
     int idUser = 0;
@@ -46,26 +41,6 @@
 <html>
 <head>
     <link href='<c:url value="/user/css/header.css" />' rel="stylesheet"/>
-    <meta
-            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-            name="viewport"
-    />
-    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
-    <title>Test websocket</title>
-    <link
-            crossorigin="anonymous"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-            rel="stylesheet"
-    />
-    <link
-            crossorigin="anonymous"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
-            integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
-            referrerpolicy="no-referrer"
-            rel="stylesheet"
-    />
-
 </head>
 <body>
     <header class="header">
@@ -99,7 +74,6 @@
                     hàng</a></li>
             </ul>
         </div>
-
         <form action="/header/moveToSearchPage" method="get"
               accept-charset="UTF-8">
             <div class="search-container">
@@ -109,7 +83,6 @@
                 </button>
             </div>
         </form>
-
         <%--		notificaiton--%>
         <div class="dropdown">
             <i class="fa fa-bell notification-bell" id="notification-bell"></i>
@@ -117,13 +90,11 @@
                 <!-- Notifications will be appended here -->
             </ul>
         </div>
-
         <div class="container-right">
             <div class="header-info">
                 <img
                         src="https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/241464176_1242056446291086_5810272849317935739_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=2tzcJr-V8XwAX_Jrr1h&_nc_ht=scontent.fsgn8-4.fna&oh=00_AfAmVlLJ6-h-sZlmoma56shb3pX1V4kcYdrmo3ytCNKJsg&oe=657653CD"
                         class="avatar"/>
-
                 <p class="username">
                     <c:if test="${not empty pageContext.request.remoteUser}">
 						<span class="fw-bold"><c:out
@@ -162,24 +133,20 @@
             </div>
         </div>
     </header>
-    <%--    https://stackoverflow.com/questions/18271251/typeerror-ajax-is-not-a-function--%>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
-
     <script>
         const BASE_URL = "http://localhost:8081/ws";
         const CHAT_CHANNEL = "/app/notify";
         const NOTIFICATION_CHANNEL = "/topic/notification";
         const AUTHORIZATION_TOKEN = "<%= idUser %>"; // Get userId from server-side
-
         const connect = (url) => {
             const sockJS = new SockJS(url);
             return Stomp.over(sockJS, {protocol: ["v12.stomp"]});
         };
-
         const fetchNotifications = (AUTHORIZATION_TOKEN) => {
             const temp = `http://localhost:8081/notifications?Authorization=` + AUTHORIZATION_TOKEN;
             $.ajax({
@@ -194,37 +161,30 @@
                 },
             });
         };
-
         const addNotification = (notification) => {
             const notificationList = document.getElementById("notification-list");
             if (!notificationList) {
-
                 console.error("#notification-list không tồn tại");
                 return;
             }
-
             // Tạo phần tử <li>
             const listItem = document.createElement('li');
             listItem.classList.add('list-group-item');
-
             // Tạo phần tử con cho status (chỉ Status in đậm)
             const statusElement = document.createElement('strong');
             statusElement.textContent = 'Title: ';  // 'Status' in đậm
             const statusText = document.createElement('span');
             statusText.textContent = notification.title;  // Phần giá trị status không in đậm
-
             // Tạo phần tử con cho message
             const messageElement = document.createElement('strong');
             messageElement.textContent = 'Content: ';  // 'Message' in đậm
             const messageText = document.createElement('span');
             messageText.textContent = notification.content;  // Phần giá trị message không in đậm
-
             // Tạo phần tử con cho order ID
             const orderIdElement = document.createElement('strong');
             orderIdElement.textContent = 'Data ';  // 'Order ID' in đậm
             const orderIdText = document.createElement('span');
             orderIdText.textContent = notification.data;  // Phần giá trị orderId không in đậm
-
             // Append các phần tử vào listItem
             listItem.appendChild(statusElement);
             listItem.appendChild(statusText);  // Giá trị của status không in đậm
@@ -234,36 +194,27 @@
             listItem.appendChild(document.createElement('br'));  // Thêm dòng mới
             listItem.appendChild(orderIdElement);
             listItem.appendChild(orderIdText);  // Giá trị của orderId không in đậm
-
             // Thêm <li> vào notificationList
             notificationList.insertBefore(listItem, notificationList.firstChild);
         };
-
         const saveNotificationToLocalStorage = (msg) => {
             let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
             notifications.push(msg);
             localStorage.setItem("notifications", JSON.stringify(notifications));
         };
-
         const loadNotificationsFromLocalStorage = () => {
             let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
             notifications.forEach((notification) => addNotification(notification));
         };
-
         $(document)
             .ready(() => {
                 // loadNotificationsFromLocalStorage();
                 fetchNotifications(AUTHORIZATION_TOKEN);
-
                 const stompClient = connect(BASE_URL);
-
                 stompClient.connect({}, (frame) => {
                     console.log("FRAME:", frame);
-
                     // user/user_id/notifications
-
                     const subUrl = '/user/' + AUTHORIZATION_TOKEN + '/notifications';
-
                     stompClient.subscribe(subUrl, (data) => {
                         console.log("Receive data: ", data);
                         const {body} = data;
@@ -272,7 +223,6 @@
                         addNotification(contents);
                         saveNotificationToLocalStorage(contents);
                     });
-
                     stompClient.subscribe(NOTIFICATION_CHANNEL, (data) => {
                         const {body} = data;
                         console.log("Notification: ", body);
@@ -281,7 +231,6 @@
                         saveNotificationToLocalStorage(body);
                     });
                 });
-
                 $("#notification-bell")
                     .click((event) => {
                         event.stopPropagation();
@@ -292,7 +241,6 @@
                             notificationList.show();
                         }
                     });
-
                 $(document)
                     .click((event) => {
                         if (!$(event.target)
