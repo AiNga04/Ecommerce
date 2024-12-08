@@ -205,7 +205,6 @@
 <%--        <!-- End: Relevant products -->--%>
 <%--    </div>--%>
         <h5 class="text-success d-flex justify-content-between align-items-center mb-4">
-<%--            <span>Comments</span>--%>
             <span class="average-rating"><strong>Đánh giá sản phẩm </strong> ${averageRating} ⭐</span>
         </h5>
 
@@ -226,26 +225,39 @@
         </form>
 
         <!-- Danh sách bình luận -->
-        <div class="comments">
-            <c:forEach items="${comments}" var="comment">
-                <div class="comment p-3 mb-4 border rounded">
-                    <div class="d-flex justify-content-between">
-                        <p><strong>${comment.username}</strong></p>
-                        <p class="text-muted small">${comment.createdAt}</p>
-                    </div>
-                    <div class="d-flex justify-content-start align-items-center mb-2">
-                        <strong class="me-2">${comment.reviewText} ⭐</strong>
-                    </div>
-                    <p>${comment.comment}</p>
-                    <p class="text-muted small">Cập nhật: ${comment.updatedAt}</p>
+        <c:forEach items="${comments}" var="comment">
+            <div class="comment p-3 mb-4 border rounded">
+                <div class="d-flex justify-content-between">
+                    <p><strong>${comment.username}</strong></p>
+                    <p class="text-muted small">${comment.createdAt}</p>
                 </div>
-            </c:forEach>
+                <div class="d-flex justify-content-start align-items-center mb-2">
+                    <strong class="me-2">${comment.reviewText} ⭐</strong>
+                </div>
+                <p>${comment.comment}</p>
+
+                <!-- Nếu có ảnh, hiển thị ảnh -->
+                <c:if test="${not empty comment.imageUrl}">
+                    <img src="/uploads/${comment.imageUrl}" alt="Uploaded Image" class="img-thumbnail" />
+                </c:if>
+            </div>
+        </c:forEach>
+
+        <!-- Phân trang -->
+        <div class="pagination">
+            <c:if test="${currentPage > 0}">
+                <a href="/product_detail/${milkTea.idMilkTea}?page=${currentPage - 1}&size=5" class="btn btn-outline-secondary">Trang trước</a>
+            </c:if>
+            <span>Trang ${currentPage + 1} / ${totalPages}</span>
+            <c:if test="${currentPage < totalPages - 1}">
+                <a href="/product_detail/${milkTea.idMilkTea}?page=${currentPage + 1}&size=5" class="btn btn-outline-secondary">Trang sau</a>
+            </c:if>
         </div>
 
         <!-- Form bình luận mới -->
         <div class="mt-5">
-            <h6><strong>Gửi bình luận của bạn</strong></h6>
-            <form action="/product_detail/${milkTea.idMilkTea}/comment" method="post">
+            <h5>Gửi bình luận của bạn</h5>
+            <form action="/product_detail/${milkTea.idMilkTea}/comment" method="post" enctype="multipart/form-data">
                 <div class="form-group mb-3">
                     <label for="reviewText">Chọn số sao:</label>
                     <select name="reviewText" id="reviewText" class="form-control" required>
@@ -258,14 +270,15 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="commentText">Bình luận của bạn:</label>
-                    <textarea name="commentText" id="commentText" class="form-control" rows="4" required></textarea>
+                    <textarea name="commentText" id="commentText" class="form-control" rows="3" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">Gửi bình luận</button>
+                <div class="form-group mb-3">
+                    <label for="image">Tải ảnh lên (nếu có):</label>
+                    <input type="file" name="image" id="image" class="form-control-file" />
+                </div>
+                <button type="submit" class="btn btn-primary">Gửi bình luận</button>
             </form>
         </div>
-
-
-
         <!-- Relevant products -->
 		<div class="container mb-2">
 			<div class="row">

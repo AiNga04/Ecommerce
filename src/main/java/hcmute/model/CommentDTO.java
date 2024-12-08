@@ -19,6 +19,7 @@ public class CommentDTO {
     private String comment;
     private MilkTeaEntity milkTea;
     private UserEntity user;
+    private String imageUrl;
 
     private String username; // Tên người dùng
     private String name;     // Tên đầy đủ của người dùng
