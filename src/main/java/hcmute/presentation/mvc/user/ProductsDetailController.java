@@ -2,6 +2,7 @@ package hcmute.presentation.mvc.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hcmute.entity.*;
+import hcmute.infrastruture.security.CustomUserDetails;
 import hcmute.model.CommentDTO;
 import hcmute.model.MilkTeaModel;
 import hcmute.model.OrderProduct;
@@ -13,7 +14,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +27,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("product_detail")
@@ -44,19 +50,22 @@ public class ProductsDetailController {
     @Autowired
     IUserService userService;
 
+
     @GetMapping("/{id}")
-    public ModelAndView detail(ModelMap model, @PathVariable("id") int id) {
+    public ModelAndView detail(ModelMap model,
+                               @PathVariable("id") int id,
+                               @RequestParam(value = "reviewText", required = false) String reviewText) {
         Optional<MilkTeaEntity> optMilkTea = milkTeaService.findByIdMilkTea(id);
         MilkTeaModel milkTeaModel = new MilkTeaModel();
 
         if (optMilkTea.isPresent()) {
             MilkTeaEntity entity = optMilkTea.get();
 
-            // copy from entity to model
+            // copy từ entity sang model
             BeanUtils.copyProperties(entity, milkTeaModel);
             int typeId = entity.getMilkTeaTypeByMilkTea().getIdType();
 
-            // set attributes for model
+            // set attributes cho model
             milkTeaModel.setMilkTeaType(entity.getMilkTeaTypeByMilkTea().getName());
             milkTeaModel.setMilkTeaTypeId(typeId);
 
@@ -65,8 +74,26 @@ public class ProductsDetailController {
             // Lấy tất cả bình luận của sản phẩm
             List<CommentDTO> comments = commentService.findAllWithUser();
 
-            model.addAttribute("comments", comments);
+            // Tính trung bình số sao cho tất cả các bình luận
+            double averageRating = comments.stream()
+                    .mapToInt(comment -> Integer.parseInt(comment.getReviewText()))
+                    .average()
+                    .orElse(0);
 
+            // Định dạng trung bình số sao với 1 chữ số sau dấu phẩy
+            DecimalFormat df = new DecimalFormat("#.0");
+            String formattedAverageRating = df.format(averageRating); // Định dạng
+
+            // Nếu reviewText được truyền vào, lọc bình luận theo số sao
+            if (reviewText != null) {
+                comments = comments.stream()
+                        .filter(comment -> comment.getReviewText().equals(reviewText))
+                        .collect(Collectors.toList());
+            }
+
+            // Thêm giá trị trung bình đã định dạng vào model
+            model.addAttribute("comments", comments);
+            model.addAttribute("averageRating", formattedAverageRating); // Sử dụng giá trị đã định dạng
             model.addAttribute("milkTea", milkTeaModel);
             model.addAttribute("relevantProducts", relevantProducts);
 
@@ -77,37 +104,45 @@ public class ProductsDetailController {
         return new ModelAndView("user/error", model);
     }
 
+
+
     @PostMapping("/{id}/comment")
-    public String addComment(@PathVariable("id") int productId,
-                             @RequestParam String reviewText,
-                             @RequestParam String commentText,
-                             @AuthenticationPrincipal UserEntity user, // Tự động lấy người dùng đang đăng nhập
-                             ModelMap model) {
+public String addComment(@PathVariable("id") int productId,
+                         @RequestParam String reviewText,
+                         @RequestParam String commentText,
+                         @AuthenticationPrincipal CustomUserDetails customUserDetails, // Sử dụng CustomUserDetails
+                         ModelMap model) {
 
-        log.info("Add comment to product {}.", productId);
-        Optional<MilkTeaEntity> milkTeaOpt = milkTeaService.findByIdMilkTea(productId);
-        if (!milkTeaOpt.isPresent()) {
-            log.info("MilkTea {} not found.", productId);
-            model.addAttribute("message", "Sản phẩm không tồn tại.");
-            return "redirect:/product_detail/" + productId;
-        }
+    log.info("Add comment to product {}.", productId);
 
-        MilkTeaEntity milkTea = milkTeaOpt.get();
-
-        // Tạo đối tượng Comment và lưu vào DB
-        Comment comment = Comment.builder()
-                .reviewText(reviewText)
-                .milkTea(milkTea)
-                .comment(commentText)
-                .user(user)
-                .createdAt(new Date())
-                .updatedAt(new Date())
-                .build();
-
-        commentService.save(comment);
-
+    Optional<MilkTeaEntity> milkTeaOpt = milkTeaService.findByIdMilkTea(productId);
+    if (!milkTeaOpt.isPresent()) {
+        log.info("MilkTea {} not found.", productId);
+        model.addAttribute("message", "Sản phẩm không tồn tại.");
         return "redirect:/product_detail/" + productId;
     }
+
+    MilkTeaEntity milkTea = milkTeaOpt.get();
+
+    // Lấy username từ CustomUserDetails
+    String username = customUserDetails.getUsername();
+    log.info("Username của người dùng: {}", username);
+
+    // Tạo đối tượng Comment và lưu vào DB
+    Comment comment = Comment.builder()
+            .reviewText(reviewText)
+            .milkTea(milkTea)
+            .comment(commentText)
+            .user(customUserDetails.getUser()) // Lấy user từ CustomUserDetails
+            .createdAt(new Date())
+            .updatedAt(new Date())
+            .build();
+
+    commentService.save(comment);
+
+    return "redirect:/product_detail/" + productId;
+}
+
 
 
     @GetMapping("/check")

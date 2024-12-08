@@ -23,6 +23,9 @@ public class CustomUserDetails implements UserDetails {
         this.userId = userId;
     }
 
+    public UserEntity getUser() {
+        return this.user;
+    }
     public CustomUserDetails(UserEntity user) {
         this.user = user;
     }
