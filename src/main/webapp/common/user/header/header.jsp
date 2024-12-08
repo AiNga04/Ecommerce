@@ -198,6 +198,7 @@
         const addNotification = (notification) => {
             const notificationList = document.getElementById("notification-list");
             if (!notificationList) {
+
                 console.error("#notification-list không tồn tại");
                 return;
             }
@@ -208,9 +209,9 @@
 
             // Tạo phần tử con cho status (chỉ Status in đậm)
             const statusElement = document.createElement('strong');
-            statusElement.textContent = 'Status: ';  // 'Status' in đậm
+            statusElement.textContent = 'Title: ';  // 'Status' in đậm
             const statusText = document.createElement('span');
-            statusText.textContent = notification.status;  // Phần giá trị status không in đậm
+            statusText.textContent = notification.title;  // Phần giá trị status không in đậm
 
             // Tạo phần tử con cho message
             const messageElement = document.createElement('strong');
@@ -220,9 +221,9 @@
 
             // Tạo phần tử con cho order ID
             const orderIdElement = document.createElement('strong');
-            orderIdElement.textContent = 'Order ID: ';  // 'Order ID' in đậm
+            orderIdElement.textContent = 'Data ';  // 'Order ID' in đậm
             const orderIdText = document.createElement('span');
-            orderIdText.textContent = notification.orderId;  // Phần giá trị orderId không in đậm
+            orderIdText.textContent = notification.data;  // Phần giá trị orderId không in đậm
 
             // Append các phần tử vào listItem
             listItem.appendChild(statusElement);
@@ -235,7 +236,7 @@
             listItem.appendChild(orderIdText);  // Giá trị của orderId không in đậm
 
             // Thêm <li> vào notificationList
-            notificationList.appendChild(listItem);
+            notificationList.insertBefore(listItem, notificationList.firstChild);
         };
 
         const saveNotificationToLocalStorage = (msg) => {

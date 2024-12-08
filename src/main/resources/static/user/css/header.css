@@ -223,26 +223,41 @@
     display: none; /* Initially hidden */
     position: absolute;
     transform: translate3d(-25px, 20px, 0px); /* Adjust as needed */
-    width: 300px; /* Make the dropdown wider */
+    width: 350px; /* Make the dropdown wider */
     padding: 10px; /* Add padding for better spacing */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
     border-radius: 8px; /* Rounded corners */
     background-color: #fff; /* White background */
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+}
 
 .list-group-item {
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ddd;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
     display: flex;
     flex-direction: column; /* Ensure content stacks vertically */
+    transition: background-color 0.3s ease;
 }
 
 .list-group-item strong {
     display: block;
     color: #333;
     margin-bottom: 5px; /* Add space between strong elements */
+}
+
+.list-group-item span {
+    color: #555;
 }

@@ -53,8 +53,8 @@ public class VoucherAdminRequest {
         voucher.setQuantity(request.getQuantity());
         voucher.setStartDate(request.getStartDate());
         voucher.setEndDate(request.getEndDate());
-        voucher.setCreateAt(LocalDateTime.now());
-        voucher.setUpdateAt(LocalDateTime.now());
+//        voucher.setCreateAt(LocalDateTime.now());
+//        voucher.setUpdateAt(LocalDateTime.now());
         voucher.setQuantityUsed(0L);
         voucher.setStatus(Status.ACTIVE);
         voucher.setType(convertType(request.getType()));
@@ -72,7 +72,7 @@ public class VoucherAdminRequest {
         voucher.setQuantity(request.getQuantity());
         voucher.setStartDate(request.getStartDate());
         voucher.setEndDate(request.getEndDate());
-        voucher.setUpdateAt(LocalDateTime.now());
+//        voucher.setUpdateAt(LocalDateTime.now());
         voucher.setType(convertType(request.getType()));
 
         return voucher;

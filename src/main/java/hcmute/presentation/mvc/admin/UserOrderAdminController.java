@@ -62,12 +62,19 @@ public class UserOrderAdminController {
                 entity.setOrderState(userOrder.getOrderState());
                 // implement websocket to send notification to user
                 String userId = String.valueOf(entity.getCustomerByOrder().getId());
+                String data = "trạng thái đơn hàng: ";
+                data += entity.getOrderState() == 0 ? "Chờ xử lý" :
+                        entity.getOrderState() == 1 ? "Đã xác nhận" :
+                                entity.getOrderState() == 2 ? "Đang giao hàng" :
+                                        "Đã nhận hàng";
+
                 notificationService.sendNotification(
                         userId,
                         NotificationRequest.builder()
                                            .title("Cập nhật trạng thái đơn hàng")
                                            .content("Đơn hàng " + entity.getIdOrder() + " đã được cập nhật")
                                            .orderId("Mã đơn hàng: " + entity.getIdOrder())
+                                           .data(data)
                                            .status(Status.ORDER)
                                            .build()
                 );
