@@ -76,4 +76,7 @@ public class UserEntity implements Serializable {
     @JsonBackReference
 //    @ToStringExclude
     private List<Notification> notifications;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
 }
