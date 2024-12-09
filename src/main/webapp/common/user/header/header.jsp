@@ -70,7 +70,7 @@
     <header class="header">
         <div class="container-left">
             <a class="d-block" href="/home"> <img
-                    src="https://raw.githubusercontent.com/AiNga04/image/refs/heads/main/logo.png"
+                    src="https://raw.githubusercontent.com/AiNga04/image/refs/heads/main/logo1.png"
                     class="logo"/>
             </a>
             <ul class="nav-list">

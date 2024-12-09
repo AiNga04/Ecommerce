@@ -40,28 +40,20 @@
             <li data-target="#homeSlider" data-slide-to="2"></li>
         </ul>
         <!--SlideShow-->
-        <div class="carousel-inner">
-            <div class="carousel-item active c-item">
-                <img class="c-img"
-                     src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/12/06/xa-kho-cuoi-tuan-web.jpg">
-            </div>
-            <div class="carousel-item c-item">
-                <img class="c-img"
-                     src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/11/23/banner-iphone-16-series-01.jpg">
-            </div>
-            <div class="carousel-item c-item">
-                <img class="c-img"
-                     src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/12/03/mac-mini-banner-website-desktop-1.png">
-            </div>
-            <div class="carousel-item c-item">
-                <img class="c-img"
-                     src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/12/04/thu-cu-14t-9-990-u_638689063997142381.png">
-            </div>
-            <div class="carousel-item c-item">
-                <img class="c-img"
-                     src="https://cdn.hoanghamobile.com/i/home/Uploads/2024/12/06/a1-web_638690961923110012.jpg">
-            </div>
-        </div>
+			<div class="carousel-inner">
+				<div class="carousel-item active c-item">
+					<img class="c-img"
+						src="https://file.hstatic.net/1000075078/file/web_desktop_aeb6f5acca5d46adad94c262dcd9ac72.jpg">
+				</div>
+				<div class="carousel-item c-item">
+					<img class="c-img"
+						src="https://file.hstatic.net/1000075078/file/desktop_b924413014a1448eb0a38024cd8bc270.jpg">
+				</div>
+				<div class="carousel-item c-item">
+					<img class="c-img"
+						src="https://file.hstatic.net/1000075078/file/web_moi_-_desktop_7f410066fea94545b59667a4063a1e09.jpg">
+				</div>
+			</div>
 
         <!--Controls-->
         <a class="carousel-control-prev" href="#homeSlider" data-slide="prev">
@@ -75,7 +67,7 @@
             <div class="col">
                 <div class="introduce-item">
                     <img class="img-introduce"
-                         src="https://cdn-img-v2.mybota.vn/uploadv2/web/82/8269/product/2024/09/20/08/25/1726796702_apple-iphone-16-pro-finish-lineup-240909_big.jpg"/>
+                         src="https://images.deliveryhero.io/image/fd-ph/LH/h6bn-hero.jpg"/>
                 </div>
             </div>
             <div class="col">
@@ -83,13 +75,11 @@
                      style="height: 100%">
                     <div class="introduce-item">
                         <div class="introduce-title">Câu chuyện thương hiệu</div>
-                        <p class="home-desc">Được chế tác và chăm chút tỉ mỉ, mỗi chiếc điện thoại mang trong mình sự
-                            kết tinh từ công nghệ tiên tiến, thiết kế tinh tế, và sự hiểu biết sâu sắc về nhu cầu người
-                            dùng. Từ những linh kiện chất lượng cao, trải qua quy trình lắp ráp hiện đại, đến việc kiểm
-                            định khắt khe, chúng tôi mang đến những sản phẩm không chỉ mạnh mẽ, bền bỉ mà còn hoàn hảo
-                            trong từng chi tiết. Điện thoại của chúng tôi không chỉ là một thiết bị, mà còn là cầu nối
-                            giữa bạn và thế giới, nơi công nghệ hòa quyện cùng sự sáng tạo, mở ra vô vàn cơ hội mới mỗi
-                            ngày.</p>
+                        <p class="home-desc">Được trồng trọt và chăm chút kỹ lưỡng,
+								nuôi dưỡng từ thổ nhưỡng phì nhiêu, nguồn nước mát lành, bao bọc
+								bởi mây và sương cùng nền nhiệt độ mát mẻ quanh năm, những búp
+								trà ở Tây Bắc mập mạp và xanh mướt, hội tụ đầy đủ dưỡng chất,
+								sinh khí, và tinh hoa đất trời.</p>
 <%--                        <a href="https://homitatea.com/about/cau-chuyen-thuong-hieu.html"--%>
                         <a href="/info"
                            class="btn-explore">Khám phá</a>
@@ -111,26 +101,31 @@
         <div class="quick-sales">
             <div class="cardcard">
                 <a href="#!" target="_blank">
-                    <img src="https://static2-images.vnncdn.net/files/publish/2022/10/5/iphone-ifold-1081.gif"
-                         title="iPhone gập" alt="iPhone gập"/>
+<%--                    <img src="https://static2-images.vnncdn.net/files/publish/2022/10/5/iphone-ifold-1081.gif"--%>
+                    <img src="https://olongha.com/wp-content/uploads/2020/04/cong-thuc-pha-che-tra-sua-ngon.gif"
+                         title="Tra" alt="Tra tuoi nguyen chat"/>
                 </a>
             </div>
             <div class="cardcard">
                 <a href="#!" target="_blank">
-                    <img src="https://github.com/AiNga04/image/blob/main/s23-ultra.gif?raw=true"
-                         title="Galaxy S23 Ultra" alt="Galaxy S23 Ultra"/>
+<%--                    <img src="https://github.com/AiNga04/image/blob/main/s23-ultra.gif?raw=true"--%>
+<%--                    <img src="https://d2onsou1d2dbvi.cloudfront.net/Uploads/imgQ/20240703/48cd68f1632a8f92d4e288984858db9f.gif"--%>
+                    <img src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/476028avj/anh-mo-ta.png"
+                         title="..." alt="..."/>
                 </a>
             </div>
             <div class="cardcard">
                 <a href="#!" target="_blank">
-                    <img src="https://www.icegif.com/wp-content/uploads/2023/01/icegif-1907.gif"
-                         title="Galaxy S23 Ultra" alt="Galaxy S23 Ultra"/>
+<%--                    <img src="https://www.icegif.com/wp-content/uploads/2023/01/icegif-1907.gif"--%>
+                    <img src="https://ss-images.saostar.vn/2017/05/04/1263581/ezgif-com-crop-1.gif"
+                         title="..." alt="..."/>
                 </a>
             </div>
             <div class="cardcard">
                 <a href="#!" target="_blank">
-                    <img src="https://static-images.vnncdn.net/files/publish/2023/5/28/iphone-15-ultra-14.gif"
-                         title="Galaxy S23 Ultra" alt="Galaxy S23 Ultra"/>
+<%--                    <img src="https://static-images.vnncdn.net/files/publish/2023/5/28/iphone-15-ultra-14.gif"--%>
+                    <img src="https://olongha.com/wp-content/uploads/2020/04/cong-thuc-pha-che-tra-sua-ngon-rot-sua.gif"
+                         title="..." alt="..."/>
                 </a>
             </div>
         </div>
@@ -141,8 +136,8 @@
             <!-- Nút đóng -->
             <button class="close-btn" onclick="closePopup()">×</button>
             <!-- Hình ảnh quảng cáo -->
-            <img src="https://hoanghamobile.com/Uploads/2024/12/05/xiaomi-redmi-note-13-popup-desktop.jpg"
-                alt="Quảng cáo Xiaomi">
+            <img src="https://intphcm.com/data/upload/poster-tra-sua-doc-la.jpg"
+                alt="Quảng cáo Tra sua">
         </div>
     </div>
 

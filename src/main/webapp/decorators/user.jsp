@@ -4,9 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"><link rel="shortcut icon" href="../img/favicon.ico" />
-<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/AiNga04/image/refs/heads/main/favicon.ico">
-<title>Phone Store</title>
+<meta charset="UTF-8"><link rel="shortcut icon" href="https://raw.githubusercontent.com/ThaiVanHandSome/logo/master/icons8-bubble-tea-100.png" />
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/ThaiVanHandSome/logo/master/icons8-bubble-tea-100.png">
+
+<title>Tea Store</title>
 <link href='<c:url value="/user/css/header.css" />' rel="stylesheet" />
 <link href='<c:url value="/user/css/footer.css" />' rel="stylesheet" />
 <link
