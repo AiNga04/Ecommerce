@@ -114,6 +114,9 @@ public class PaymentController {
         data = new String(decodedBytes, StandardCharsets.UTF_8);
         ObjectMapper objectMapper = new ObjectMapper();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Địa chỉ trang trạng thái giao hàng
+        String redirectUrl = "/order/status";
         try {
             OrderData orderData = objectMapper.readValue(data, OrderData.class);
             Order order = new Order();
@@ -160,12 +163,13 @@ public class PaymentController {
 
                 orderDetailService.save(orderDetailEntity);
                 model.addAttribute("orderMessage", "Bạn đã đặt hàng thành công!");
+                redirectUrl = "/order/status/" + order.getIdOrder();
             }
 
         } catch (Exception e) {
             log.error(e.getMessage());
             model.addAttribute("orderMessage", "Đặt hàng thất bại!");
         }
-        return "user/home";
+        return "redirect:" + redirectUrl;
     }
 }

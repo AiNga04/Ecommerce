@@ -86,7 +86,8 @@
         <%--		notificaiton--%>
         <div class="dropdown">
             <i class="fa fa-bell notification-bell" id="notification-bell"></i>
-            <ul class="dropdown-menu dropdown-menu-end" id="notification-list">
+            <ul class="dropdown-menu dropdown-menu-end" id="notification-list"
+            style="padding: 15px;">
                 <!-- Notifications will be appended here -->
             </ul>
         </div>
@@ -108,6 +109,8 @@
                                 href="#">Quản lý tài khoản</a></li>
                         <li class="header-action-item"><a class="header-action-link"
                                                           href="/cart">Giỏ hàng của tôi</a></li>
+                        <li class="header-action-item"><a class="header-action-link"
+                                                          href="/order/status">Trạng thái giao hàng</a></li>
                         <li class="header-action-item"><a class="header-action-link"
                                                           href="/order">Đơn hàng của tôi</a></li>
                         <li class="header-action-item"><a class="header-action-link"
