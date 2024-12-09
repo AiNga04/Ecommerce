@@ -179,31 +179,131 @@
         </div>
         <!-- End: Description -->
 
-        <!-- Relevant products -->
-        <div class="container mb-2">
-            <div class="row">
-                <div class="col-12">
-                    <h5 class="bold-text black-text mt-2">Sản phẩm liên quan</h5>
-                </div>
-                <c:forEach var="milkTea" items="${relevantProducts }">
-                    <div class="col-lg-3 col-sm-12 mt-2">
-                        <a href="/product_detail/${milkTea.idMilkTea }" class="card">
-                            <c:url
-                                    value="/home/image/${milkTea.image != null ? milkTea.image : null }"
-                                    var="imgUrl"/> <img src="${imgUrl}" class="card-img-top"/>
-                            <div class="card-body">
-                                <p class="card-title bold-text">${milkTea.name }
-                                <p class="black-text"></p>
-                                </p>
-                                <p class="card-price" style="font-size: 20px">${milkTea.cost }đ</p>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
+<%--        <!-- Relevant products -->--%>
+<%--        <div class="container mb-2">--%>
+<%--            <div class="row">--%>
+<%--                <div class="col-12">--%>
+<%--                    <h5 class="bold-text black-text mt-2">Sản phẩm liên quan</h5>--%>
+<%--                </div>--%>
+<%--                <c:forEach var="milkTea" items="${relevantProducts }">--%>
+<%--                    <div class="col-lg-3 col-sm-12 mt-2">--%>
+<%--                        <a href="/product_detail/${milkTea.idMilkTea }" class="card">--%>
+<%--                            <c:url--%>
+<%--                                    value="/home/image/${milkTea.image != null ? milkTea.image : null }"--%>
+<%--                                    var="imgUrl"/> <img src="${imgUrl}" class="card-img-top"/>--%>
+<%--                            <div class="card-body">--%>
+<%--                                <p class="card-title bold-text">${milkTea.name }--%>
+<%--                                <p class="black-text"></p>--%>
+<%--                                </p>--%>
+<%--                                <p class="card-price" style="font-size: 20px">${milkTea.cost }đ</p>--%>
+<%--                            </div>--%>
+<%--                        </a>--%>
+<%--                    </div>--%>
+<%--                </c:forEach>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <!-- End: Relevant products -->--%>
+<%--    </div>--%>
+        <h5 class="text-success d-flex justify-content-between align-items-center mb-4">
+            <span class="average-rating"><strong>Đánh giá sản phẩm </strong> ${averageRating} ⭐</span>
+        </h5>
+
+        <!-- Nút đánh giá sao -->
+        <form action="/product_detail/${milkTea.idMilkTea}" method="get" id="reviewFilterForm" class="filter-rating mb-4">
+            <div class="star-rating d-flex">
+                <button type="submit" class="btn btn-outline-warning me-2" name="reviewText" value="1">1 ⭐</button>
+                <button type="submit" class="btn btn-outline-warning me-2" name="reviewText" value="2">2 ⭐</button>
+                <button type="submit" class="btn btn-outline-warning me-2" name="reviewText" value="3">3 ⭐</button>
+                <button type="submit" class="btn btn-outline-warning me-2" name="reviewText" value="4">4 ⭐</button>
+                <button type="submit" class="btn btn-outline-warning me-2" name="reviewText" value="5">5 ⭐</button>
             </div>
+        </form>
+
+        <!-- Nút "Tất cả bình luận" -->
+        <form action="/product_detail/${milkTea.idMilkTea}" method="get" id="allCommentsForm" class="mb-4">
+            <button type="submit" class="btn btn-outline-info">Tất cả bình luận</button>
+        </form>
+
+        <!-- Danh sách bình luận -->
+        <c:forEach items="${comments}" var="comment">
+            <div class="comment p-3 mb-4 border rounded">
+                <div class="d-flex justify-content-between">
+                    <p><strong>${comment.username}</strong></p>
+                    <p class="text-muted small">${comment.createdAt}</p>
+                </div>
+                <div class="d-flex justify-content-start align-items-center mb-2">
+                    <strong class="me-2">${comment.reviewText} ⭐</strong>
+                </div>
+                <p>${comment.comment}</p>
+
+                <!-- Nếu có ảnh, hiển thị ảnh -->
+                <c:if test="${not empty comment.imageUrl}">
+                    <img src="/uploads/${comment.imageUrl}" alt="Uploaded Image" class="img-thumbnail" />
+                </c:if>
+            </div>
+        </c:forEach>
+
+        <!-- Phân trang -->
+        <div class="pagination">
+            <c:if test="${currentPage > 0}">
+                <a href="/product_detail/${milkTea.idMilkTea}?page=${currentPage - 1}&size=5" class="btn btn-outline-secondary">Trang trước</a>
+            </c:if>
+            <span>Trang ${currentPage + 1} / ${totalPages}</span>
+            <c:if test="${currentPage < totalPages - 1}">
+                <a href="/product_detail/${milkTea.idMilkTea}?page=${currentPage + 1}&size=5" class="btn btn-outline-secondary">Trang sau</a>
+            </c:if>
         </div>
-        <!-- End: Relevant products -->
-    </div>
+
+        <!-- Form bình luận mới -->
+        <div class="mt-5">
+            <h5>Gửi bình luận của bạn</h5>
+            <form action="/product_detail/${milkTea.idMilkTea}/comment" method="post" enctype="multipart/form-data">
+                <div class="form-group mb-3">
+                    <label for="reviewText">Chọn số sao:</label>
+                    <select name="reviewText" id="reviewText" class="form-control" required>
+                        <option value="1">1 ⭐</option>
+                        <option value="2">2 ⭐</option>
+                        <option value="3">3 ⭐</option>
+                        <option value="4">4 ⭐</option>
+                        <option value="5">5 ⭐</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="commentText">Bình luận của bạn:</label>
+                    <textarea name="commentText" id="commentText" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="image">Tải ảnh lên (nếu có):</label>
+                    <input type="file" name="image" id="image" class="form-control-file" />
+                </div>
+                <button type="submit" class="btn btn-primary">Gửi bình luận</button>
+            </form>
+        </div>
+        <!-- Relevant products -->
+		<div class="container mb-2">
+			<div class="row">
+				<div class="col-12">
+					<h5 class="bold-text black-text mt-2">Sản phẩm liên quan</h5>
+				</div>
+				<c:forEach var="milkTea" items="${relevantProducts }">
+					<div class="col-lg-3 col-sm-12 mt-2">
+						<a href="/product_detail/${milkTea.idMilkTea }" class="card">
+							<c:url
+								value="/home/image/${milkTea.image != null ? milkTea.image : null }"
+								var="imgUrl" /> <img src="${imgUrl}" class="card-img-top" />
+							<div class="card-body">
+								<p class="card-title bold-text">${milkTea.name }
+								<p class="black-text"></p>
+								</p>
+								<p class="card-price" style="font-size: 20px">${milkTea.cost }đ</p>
+							</div>
+						</a>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		<!-- End: Relevant products -->
+	</div>
 
     <script type="text/javascript"
             src='<c:url value="/user/js/toast.js" />'></script>

@@ -19,6 +19,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Query("SELECT u FROM UserEntity u WHERE u.email = ?1")
     Optional<UserEntity> findByEmail(String email);
 
+//    @Query("SELECT u FROM UserEntity u WHERE u.username = ?1")
+//    UserEntity findByUser(String username);
+
     @Query("SELECT DISTINCT ur.user FROM UserRoleEntity ur WHERE ur.role.id IN ('ADMIN', 'USER', 'MANAGER')")
     List<UserEntity> getAdministrators();
 
