@@ -13,6 +13,8 @@ public interface ICommentService {
     void save(Comment comment);
 
     Page<CommentDTO> findAllWithUserPaged(Pageable pageable);
+
     String uploadImage(MultipartFile imageFile) throws IOException;
+
     Page<CommentDTO> findByReviewTextPaged(String reviewText, Pageable pageable);
 }

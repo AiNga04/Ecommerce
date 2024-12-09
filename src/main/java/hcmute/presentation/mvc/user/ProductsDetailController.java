@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,19 +50,17 @@ public class ProductsDetailController {
     CookieServiceImpl cookieServiceImpl;
     ICartService cartService;
     IStorageService storageService;
-
-    @Autowired
     ICommentService commentService;
-
-    @Autowired
     IUserService userService;
 
     @GetMapping("/{id}")
-    public ModelAndView detail(ModelMap model,
-                               @PathVariable("id") int id,
-                               @RequestParam(value = "reviewText", required = false) String reviewText,
-                               @RequestParam(value = "page", defaultValue = "0") int page,
-                               @RequestParam(value = "size", defaultValue = "5") int size) {
+    public ModelAndView detail(
+            ModelMap model,
+            @PathVariable("id") int id,
+            @RequestParam(value = "reviewText", required = false) String reviewText,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size
+    ) {
 
         Optional<MilkTeaEntity> optMilkTea = milkTeaService.findByIdMilkTea(id);
         MilkTeaModel milkTeaModel = new MilkTeaModel();
@@ -76,16 +75,16 @@ public class ProductsDetailController {
 
             List<MilkTeaEntity> relevantProducts = milkTeaService.findRelevantProducts(typeId, id);
 
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
             // Tìm tất cả các bình luận liên quan đến sản phẩm (không áp dụng lọc reviewText)
             Page<CommentDTO> allCommentsPage = commentService.findAllWithUserPaged(pageable);
 
             // Tính trung bình số sao cho tất cả các bình luận (không bị ảnh hưởng bởi filter reviewText)
             double averageRating = allCommentsPage.getContent().stream()
-                    .mapToInt(comment -> Integer.parseInt(comment.getReviewText())) // Convert reviewText (số sao)
-                    .average()
-                    .orElse(0);
+                                                  .mapToInt(comment -> Integer.parseInt(comment.getReviewText())) // Convert reviewText (số sao)
+                                                  .average()
+                                                  .orElse(0);
 
             // Định dạng trung bình số sao với 1 chữ số sau dấu phẩy
             DecimalFormat df = new DecimalFormat("#.0");
@@ -121,12 +120,14 @@ public class ProductsDetailController {
     }
 
     @PostMapping("/{id}/comment")
-    public String addComment(@PathVariable("id") int productId,
-                             @RequestParam String reviewText,
-                             @RequestParam String commentText,
-                             @RequestParam(value = "image", required = false) MultipartFile imageFile,
-                             @AuthenticationPrincipal CustomUserDetails customUserDetails,
-                             ModelMap model) {
+    public String addComment(
+            @PathVariable("id") int productId,
+            @RequestParam String reviewText,
+            @RequestParam String commentText,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            ModelMap model
+    ) {
 
         System.out.println("Received request to add comment for product ID: " + productId);
 
@@ -141,13 +142,13 @@ public class ProductsDetailController {
 
         // Tạo đối tượng Comment
         Comment comment = Comment.builder()
-                .reviewText(reviewText)
-                .milkTea(milkTea)
-                .comment(commentText)
-                .user(customUserDetails.getUser())
-                .createdAt(new Date())
-                .updatedAt(new Date())
-                .build();
+                                 .reviewText(reviewText)
+                                 .milkTea(milkTea)
+                                 .comment(commentText)
+                                 .user(customUserDetails.getUser())
+                                 .createdAt(new Date())
+                                 .updatedAt(new Date())
+                                 .build();
 
         // Nếu có ảnh được tải lên, xử lý lưu ảnh
         if (imageFile != null && !imageFile.isEmpty()) {
