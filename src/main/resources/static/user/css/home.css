@@ -350,3 +350,103 @@ html::-webkit-scrollbar-thumb:active {
     font-size: 20px;
     color: #000;
 }
+/*//*/
+.quick__advertise {
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+.quick-sales {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Khoảng cách giữa các card */
+    justify-content: center;
+}
+
+.cardcard {
+    background-color: #fff;
+    border-radius: 8px;
+    height: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 24%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardcard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardcard img {
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.ads{
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.ads img{
+    border-radius: 8px;
+}
+
+.carousel-inner{
+    padding: 20px;
+}
+
+/* Nền mờ khi hiển thị quảng cáo */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Hộp quảng cáo */
+.popup {
+    position: relative;
+    width: 70%;
+    max-width: 600px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* Hình ảnh quảng cáo */
+.popup img {
+    width: 100%;
+    display: block;
+}
+
+/* Nút đóng */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-btn:hover {
+    background: darkred;
+}
