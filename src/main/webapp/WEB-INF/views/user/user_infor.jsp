@@ -74,9 +74,9 @@
                 <input type="tel" id="phone" class="user-phone-textbox textbox"
                        name="phoneNumber" value="${user.phoneNumber}" pattern="0\d{9}"
                        required>
-                <div class="user-infor user-birthday">Sinh nhật</div>
-                <input type="date" class="user-birthday-textbox textbox"
-                       name="birthday" value="${user.birthday}" readonly>
+                <%--                <div class="user-infor user-birthday">Sinh nhật</div>--%>
+                <%--                <input type="date" class="user-birthday-textbox textbox"--%>
+                <%--                       name="birthday" value="${user.birthday}" readonly>--%>
                 <div class="user-infor user-email">Email</div>
                 <input type="email" class="user-email-textbox textbox" name="email"
                        value="${user.email}" readonly> <input type="radio"

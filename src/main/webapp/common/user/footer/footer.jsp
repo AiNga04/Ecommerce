@@ -38,13 +38,13 @@
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 footer-content">
                     <h3>Kết nối</h3>
                     <p>Văn phòng: Số 1 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP.HCM</p>
-                    <p>Điện thoại: 0123456789</p>
-                    <p>Email: alotra@gmail.com</p>
+                    <p>Điện thoại: 0833998180</p>
+                    <p>Email: phamchien152003@gmail.com</p>
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 footer-content">
                     <img
-                            src="https://i.pinimg.com/564x/c9/00/23/c90023ffa7e711b6e533af01c5dfc19f.jpg"
+                            src="https://png.pngtree.com/png-clipart/20230520/original/pngtree-cute-mobile-phone-png-image_9166372.png"
                             alt="Logo thương hiệu"/>
                     <div class="footer-social d-flex">
                         <p class="me-4" style="font-size: 28px">

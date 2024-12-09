@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon"
-          href="https://raw.githubusercontent.com/ThaiVanHandSome/logo/master/icons8-bubble-tea-100.png">
-    <title>ALOTRA</title>
+          href="https://raw.githubusercontent.com/AiNga04/image/refs/heads/main/image.png">
+    <title>Tea Store</title>
     <link href='<c:url value="/user/css/header.css" />' rel="stylesheet"/>
     <link href='<c:url value="/user/css/footer.css" />' rel="stylesheet"/>
     <link
@@ -61,22 +61,28 @@
             src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             type="text/javascript"></script>
     <script type="text/javascript" src="https://popupsmart.com/freechat.js"></script>
-    <script> window.start.init({
-        title: "Hi there ✌️ welcome to ALOTRA",
-        message: "How may we help you? Just send us a message now to get assistance.",
-        color: "#eaef26",
-        position: "right",
-        placeholder: "Enter your message",
-        withText: "Write with",
-        viaWhatsapp: "Or write us directly via Whatsapp",
-        gty: "Go to your",
-        awu: "and write us",
-        connect: "Connect now",
-        button: "Write us",
-        device: "everywhere",
-        logo: "https://d2r80wdbkwti6l.cloudfront.net/eGM8mHgkE7WXSBi6wTRTUbVc380j9qy0.jpg",
-        person: "https://d2r80wdbkwti6l.cloudfront.net/G6RH57yfCm7NvoBPaulrbqwjuVuCrsnR.jpg",
-        services: [{"name": "messenger", "content": "61569707863238"}]
-    })</script>
+    <script>
+        window.start.init({
+            title: "Tea support",
+            message: "Chào quý khách, tôi là nhân viên chăm sóc khách hàng của Tea store, tôi có thể giúp gì cho quý khách ạ",
+            color: "#1C86FA",
+            position: "right",
+            placeholder: "Nhập tin nhắn của bạn vào đây",
+            withText: "Write with",
+            gty: "Go to your",
+            awu: "and write us",
+            connect: "Connect now",
+            button: "Chat with us",
+            device: "everywhere",
+            logo: "https://png.pngtree.com/png-clipart/20200701/original/pngtree-milk-tea-logo-png-image_5405468.jpg",
+            person: "https://png.pngtree.com/png-vector/20190115/ourlarge/pngtree-avatar-male-icon-design-vector-png-image_316168.jpg",
+            services: [
+                {
+                    "name": "messenger",
+                    "content": "61569707863238"
+                }
+            ]
+        });
+    </script>
 </body>
 </html>

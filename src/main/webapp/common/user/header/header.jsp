@@ -115,8 +115,8 @@
                                                           href="/order/status">Trạng thái giao hàng</a></li>
                         <li class="header-action-item"><a class="header-action-link"
                                                           href="/order">Đơn hàng của tôi</a></li>
-                        <li class="header-action-item"><a class="header-action-link"
-                                                          href="/help">Trợ giúp</a></li>
+                        <%--                        <li class="header-action-item"><a class="header-action-link"--%>
+                        <%--                                                          href="/help">Trợ giúp</a></li>--%>
                         <li class="header-action-item"><a class="header-action-link"
                                                           href="/security/forgot-password">Quên mật khẩu</a></li>
                         <li class="header-action-item"><a class="header-action-link"
@@ -207,6 +207,7 @@
             notifications.push(msg);
             localStorage.setItem("notifications", JSON.stringify(notifications));
         };
+
         const loadNotificationsFromLocalStorage = () => {
             let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
             notifications.forEach((notification) => addNotification(notification));
