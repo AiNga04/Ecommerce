@@ -49,7 +49,7 @@ public class NotificationService implements INotificationServices {
                                                 .notificationId(UUID.randomUUID())
                                                 .title("Update status order")
                                                 .content(notification.getContent())
-                                                .data("Order " + notification.getOrderId() + " has been updated")
+                                                .data("Order " + notification.getOrderId() + " has been " + notification.getData())
                                                 .userEntity(userEntity)
                                                 .state(NotificationState.NOT_RECEIVED)
                                                 .build());

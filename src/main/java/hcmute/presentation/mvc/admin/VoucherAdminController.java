@@ -5,6 +5,8 @@ import hcmute.dto.response.ListVoucherAdminResponse;
 import hcmute.dto.response.VoucherAdminResponse;
 import hcmute.model.enums.Status;
 import hcmute.model.enums.VoucherType;
+import hcmute.service.IMilkTeaCategoryService;
+import hcmute.service.IMilkTeaService;
 import hcmute.service.IVoucherAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,12 +22,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public class VoucherAdminController {
-
     IVoucherAdminService voucherAdminService;
+    IMilkTeaCategoryService milkTeaCategoryService;
+    IMilkTeaService milkTeaService;
 
     @GetMapping("/add")
     public String showAddVoucherForm(Model model) {
         model.addAttribute("voucher", new VoucherAdminRequest());
+        model.addAttribute("categories", milkTeaCategoryService.findAll());
+        model.addAttribute("products", milkTeaService.findAll());
         return "admin/customize/customize-voucher-add";
     }
 
@@ -120,7 +125,7 @@ public class VoucherAdminController {
             throw new IllegalArgumentException("Mã của mã giảm giá không được để trống!");
         }
         VoucherAdminResponse response = voucherAdminService.getVoucherAdminByVoucherId(voucherId);
-        model.addAttribute("voucher", response);
-        return "admin/voucher/detail-voucher";
+        model.addAttribute("voucher", response.getVoucherDTO());
+        return "admin/view/view-voucher-detail";
     }
 }

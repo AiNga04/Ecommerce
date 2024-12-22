@@ -1,5 +1,6 @@
 package hcmute.presentation.mvc.api;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,8 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("api")
 public class PlacesControllerApi {
 
-    private final String googleApiKey = "AIzaSyCziRvn2DovPQLMiklZ6Bv0Gw6748S9VV4";
+    @Value("${google.api.key}")
+    private String googleApiKey;
 
     @GetMapping("/places")
     public ResponseEntity<Object> getPlaces(@RequestParam String query) {
