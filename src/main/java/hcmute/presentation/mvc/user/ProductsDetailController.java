@@ -1,6 +1,9 @@
 package hcmute.presentation.mvc.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hcmute.entity.BranchEntity;
+import hcmute.entity.CartEntity;
+import hcmute.entity.MilkTeaEntity;
 import hcmute.entity.*;
 import hcmute.infrastruture.security.CustomUserDetails;
 import hcmute.model.CommentDTO;
@@ -24,6 +27,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +39,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -67,9 +78,12 @@ public class ProductsDetailController {
 
         if (optMilkTea.isPresent()) {
             MilkTeaEntity entity = optMilkTea.get();
+
+            // copy from entity to model
             BeanUtils.copyProperties(entity, milkTeaModel);
             int typeId = entity.getMilkTeaTypeByMilkTea().getIdType();
 
+            // set attributes for model
             milkTeaModel.setMilkTeaType(entity.getMilkTeaTypeByMilkTea().getName());
             milkTeaModel.setMilkTeaTypeId(typeId);
 
@@ -89,6 +103,8 @@ public class ProductsDetailController {
             // Định dạng trung bình số sao với 1 chữ số sau dấu phẩy
             DecimalFormat df = new DecimalFormat("#.0");
             String formattedAverageRating = df.format(averageRating);
+            // get flash attributes from previous request
+            String cartMessage = (String) redirectAttributes.getFlashAttributes().get("cartMessage");
 
             // Thêm giá trị trung bình đã định dạng vào model
             model.addAttribute("averageRating", formattedAverageRating);
@@ -101,6 +117,8 @@ public class ProductsDetailController {
             } else {
                 // Nếu không có lọc, lấy tất cả bình luận
                 commentPage = allCommentsPage;
+            if (cartMessage != null) {
+                model.addAttribute("cartMessage", cartMessage);
             }
 
             model.addAttribute("comments", commentPage.getContent());

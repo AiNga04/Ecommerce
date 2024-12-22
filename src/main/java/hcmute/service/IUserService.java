@@ -16,8 +16,6 @@ public interface IUserService {
 
     UserEntity update(UserEntity user);
 
-    //UserEntity findByUser(String username);
-
     void deleteByUsername(String id);
 
     List<UserEntity> findAll();
