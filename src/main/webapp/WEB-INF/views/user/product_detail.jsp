@@ -180,30 +180,30 @@
         <!-- End: Description -->
 
         <!-- Relevant products -->
-        <div class="container mb-2">
-            <div class="row">
-                <div class="col-12">
-                    <h5 class="bold-text black-text mt-2">Sản phẩm liên quan</h5>
-                </div>
-                <c:forEach var="milkTea" items="${relevantProducts }">
-                    <div class="col-lg-3 col-sm-12 mt-2">
-                        <a href="/product_detail/${milkTea.idMilkTea }" class="card">
-                            <c:url
-                                    value="/home/image/${milkTea.image != null ? milkTea.image : null }"
-                                    var="imgUrl"/> <img src="${imgUrl}" class="card-img-top"/>
-                            <div class="card-body">
-                                <p class="card-title bold-text">${milkTea.name }
-                                <p class="black-text"></p>
-                                </p>
-                                <p class="card-price" style="font-size: 20px">${milkTea.cost }đ</p>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-        <!-- End: Relevant products -->
-    </div>
+		<div class="container mb-2">
+			<div class="row">
+				<div class="col-12">
+					<h5 class="bold-text black-text mt-2">Sản phẩm liên quan</h5>
+				</div>
+				<c:forEach var="milkTea" items="${relevantProducts }">
+					<div class="col-lg-3 col-sm-12 mt-2">
+						<a href="/product_detail/${milkTea.idMilkTea }" class="card">
+							<c:url
+								value="/home/image/${milkTea.image != null ? milkTea.image : null }"
+								var="imgUrl" /> <img src="${imgUrl}" class="card-img-top" />
+							<div class="card-body">
+								<p class="card-title bold-text">${milkTea.name }
+								<p class="black-text"></p>
+								</p>
+								<p class="card-price" style="font-size: 20px">${milkTea.cost }đ</p>
+							</div>
+						</a>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		<!-- End: Relevant products -->
+	</div>
 
     <script type="text/javascript"
             src='<c:url value="/user/js/toast.js" />'></script>
