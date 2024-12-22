@@ -1,8 +1,8 @@
 package hcmute.service.impl;
 
-import hcmute.config.VNPayConfig;
 import hcmute.model.PaymentDTO;
-import hcmute.utils.VNPayUtil;
+import hcmute.infrastruture.integration.vnpay.VNPayConfig;
+import hcmute.infrastruture.integration.vnpay.VNPayUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

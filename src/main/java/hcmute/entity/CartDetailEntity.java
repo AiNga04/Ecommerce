@@ -16,7 +16,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "cart_detail")
 public class CartDetailEntity implements Serializable {
-
     @EmbeddedId
     private CartDetailId idCartDetail;
 

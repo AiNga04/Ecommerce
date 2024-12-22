@@ -1,9 +1,7 @@
 package hcmute.repository;
 
 import hcmute.entity.UserEntity;
-import hcmute.model.AuthProvider;
-import hcmute.model.Status;
-import hcmute.model.UserModel;
+import hcmute.model.enums.AuthProvider;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-
-    List<UserEntity> findAllByStatus(Status status);
 
     @Query("SELECT u FROM UserEntity u WHERE u.username = ?1")
     Optional<UserEntity> findByUsername(String username);

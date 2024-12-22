@@ -1,9 +1,14 @@
 package hcmute.model;
 
-import hcmute.entity.Status;
+import hcmute.entity.MilkTeaCategoryEntity;
+import hcmute.entity.MilkTeaEntity;
+import hcmute.model.enums.Status;
 import hcmute.entity.Voucher;
-import hcmute.entity.VoucherType;
-import lombok.*;
+import hcmute.model.enums.VoucherType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -41,6 +46,12 @@ public class VoucherDTO {
 
     private String type;
 
+    private boolean applyToAll;
+
+    private MilkTeaCategoryEntity category;
+
+    private List<MilkTeaEntity> specificProducts;
+
     public static VoucherDTO convertEntityToDTO(Voucher voucher) {
         VoucherDTO voucherDTO = new VoucherDTO();
         voucherDTO.setVoucherId(voucher.getVoucherId());
@@ -56,7 +67,10 @@ public class VoucherDTO {
         voucherDTO.setStartDate(voucher.getStartDate());
         voucherDTO.setEndDate(voucher.getEndDate());
         voucherDTO.setQuantityUsed(voucher.getQuantityUsed());
-
+        voucherDTO.setApplyToAll(voucher.isApplyToAll());
+        voucherDTO.setCategory(voucher.getCategory() != null ? voucher.getCategory() : new MilkTeaCategoryEntity());
+        voucherDTO.setSpecificProducts(voucher.getSpecificProducts() != null ? voucher.getSpecificProducts() : new ArrayList<>());
+        
         if (voucher.getType() == null ||
                 voucher.getType().equals(VoucherType.PERCENTAGE_SHOP) ||
                 voucher.getType().equals(VoucherType.PERCENTAGE_SYSTEM)) {
@@ -100,7 +114,6 @@ public class VoucherDTO {
         }
         return code.toString();
     }
-
 }
 
 

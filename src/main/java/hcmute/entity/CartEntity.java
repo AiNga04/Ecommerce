@@ -16,7 +16,6 @@ import java.util.Set;
 @Entity
 @Table(name = "cart")
 public class CartEntity implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cart")

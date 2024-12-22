@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport"
+    />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>Test websocket</title>
+    <link
+            crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+            rel="stylesheet"
+    />
+    <link
+            crossorigin="anonymous"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+            integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+            referrerpolicy="no-referrer"
+            rel="stylesheet"
+    />
+
+    <style>
+        .chat-message {
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+        }
+
+        .message-content {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .notification-bell {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: red;
+            cursor: pointer;
+        }
+
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+            right: 0px;
+            left: auto;
+            display: none; /* Initially hidden */
+        }
+
+        .list-group-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .list-group-item strong {
+            display: block;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <label class="form-label" for="chat">Chat</label>
+                <input class="form-control" id="chat" placeholder="Some thing...." type="text"/>
+            </div>
+            <div class="col-12 mt-2">
+                <button class="btn btn-success" id="send">Send</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" id="box-chat">
+                <!-- Box chat -->
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <i class="fa fa-bell notification-bell" id="notification-bell"></i>
+        <ul class="dropdown-menu dropdown-menu-end" id="notification-list">
+            <!-- Notifications will be appended here -->
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"></script>
+</body>
+<script>
+    const BASE_URL = "http://localhost:8081/ws";
+    const CHAT_CHANNEL = "/app/notify";
+    const NOTIFICATION_CHANNEL = "/topic/notification";
+    const AUTHORIZATION_TOKEN = "2"; // Replace with actual token
+
+    const connect = (url) => {
+        const sockJS = new SockJS(url);
+        return Stomp.over(sockJS, {protocol: ["v12.stomp"]});
+    };
+
+    const genChatMsg = (msg) => {
+        const elmBoxChat = document.querySelector("#box-chat");
+        elmBoxChat.insertAdjacentHTML(
+            "beforeend",
+            `
+        <div class="chat-message">
+            <span class="message-content">
+                <strong>Status:</strong> ${msg.title}<br>
+                <strong>Message:</strong> ${msg.content}<br>
+                <strong>Order ID:</strong> ${msg.orderId}
+            </span>
+        </div>
+    `
+        );
+    };
+
+    const addNotification = (msg) => {
+        const notificationList = document.getElementById("notification-list");
+        notificationList.insertAdjacentHTML(
+            "beforeend",
+            `
+            <li class="list-group-item">
+                <strong>Title:</strong> ${msg.title}<br>
+                <strong>Content:</strong> ${msg.content}<br>
+                <strong>Data:</strong> ${msg.data}
+            </li>
+        `
+        );
+    };
+
+    const fetchNotifications = (AUTHORIZATION_TOKEN) => {
+        $.ajax({
+            url: `http://localhost:8081/notifications?Authorization=${AUTHORIZATION_TOKEN}`,
+            method: "GET",
+            success: function (response) {
+                const notifications = response.data.items;
+                notifications.forEach((notification) => addNotification(notification));
+            },
+            error: function (error) {
+                console.error("Error fetching notifications:", error);
+            },
+        });
+    };
+
+    const saveNotificationToLocalStorage = (msg) => {
+        let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+        notifications.push(msg);
+        localStorage.setItem("notifications", JSON.stringify(notifications));
+    };
+
+    const loadNotificationsFromLocalStorage = () => {
+        let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+        notifications.forEach((notification) => addNotification(notification));
+    };
+
+    $(document)
+        .ready(() => {
+            // loadNotificationsFromLocalStorage();
+            
+            fetchNotifications(AUTHORIZATION_TOKEN);
+
+            const stompClient = connect(BASE_URL);
+
+            stompClient.connect({}, (frame) => {
+                console.log("FRAME:", frame);
+
+                // user/user_id/notifications
+                const userId = 2;
+
+                stompClient.subscribe(`/user/${userId}/notifications`, (data) => {
+                    console.log("Receive data: ", data);
+                    const {body} = data;
+                    const contents = JSON.parse(body);
+                    genChatMsg(contents);
+                    addNotification(contents);
+                    saveNotificationToLocalStorage(contents);
+                });
+
+                stompClient.subscribe(NOTIFICATION_CHANNEL, (data) => {
+                    const {body} = data;
+                    console.log("Notification: ", body);
+                    genChatMsg(body);
+                    addNotification(body);
+                });
+            });
+
+            $("#send")
+                .click(() => {
+                    const message = $("#chat")
+                        .val();
+                    stompClient.send(CHAT_CHANNEL, {}, message);
+                });
+
+            $("#notification-bell")
+                .click((event) => {
+                    event.stopPropagation();
+                    const notificationList = $("#notification-list");
+                    if (notificationList.is(":visible")) {
+                        notificationList.hide();
+                    } else {
+                        notificationList.css("transform", "translate3d(-45px, -113.544px, 0px)")
+                                        .show();
+                    }
+                });
+
+            $(document)
+                .click((event) => {
+                    if (!$(event.target)
+                        .closest("#notification-bell").length) {
+                        $("#notification-list")
+                            .hide();
+                    }
+                });
+        });
+</script>
+</html>

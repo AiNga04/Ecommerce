@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,8 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "milk_tea")
+@EntityListeners(MilkTeaEntityListener.class)
 public class MilkTeaEntity implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_milk_tea")
@@ -46,4 +47,8 @@ public class MilkTeaEntity implements Serializable {
 
     @OneToMany(mappedBy = "milkTeaByBranchMilkTea")
     private Set<BranchMilkTea> branchMilkTeas;
+
+    @ManyToMany(mappedBy = "specificProducts", fetch = FetchType.LAZY)
+    @BatchSize(size = 10)
+    private Set<Voucher> vouchers;
 }
