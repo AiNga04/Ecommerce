@@ -30,6 +30,8 @@ public class Comment implements Serializable {
 
     @LastModifiedDate
     private Date updatedAt;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "milk_tea_id") // Đây là khóa ngoại đến bảng MilkTeaEntity

@@ -1,7 +1,11 @@
 package hcmute.presentation.mvc.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hcmute.entity.BranchEntity;
+import hcmute.entity.CartEntity;
+import hcmute.entity.MilkTeaEntity;
 import hcmute.entity.*;
+import hcmute.infrastruture.security.CustomUserDetails;
 import hcmute.model.CommentDTO;
 import hcmute.model.MilkTeaModel;
 import hcmute.model.OrderProduct;
@@ -13,17 +17,35 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("product_detail")
@@ -37,6 +59,7 @@ public class ProductsDetailController {
     IBranchMilkTeaService branchMilkTeaService;
     CookieServiceImpl cookieServiceImpl;
     ICartService cartService;
+    IStorageService storageService;
 
     @Autowired
     ICommentService commentService;
@@ -45,7 +68,14 @@ public class ProductsDetailController {
     IUserService userService;
 
     @GetMapping("/{id}")
-    public ModelAndView detail(ModelMap model, @PathVariable("id") int id) {
+    public ModelAndView detail(
+            ModelMap model,
+            @PathVariable("id") int id,
+            @RequestParam(value = "reviewText", required = false) String reviewText,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size
+    ) {
+
         Optional<MilkTeaEntity> optMilkTea = milkTeaService.findByIdMilkTea(id);
         MilkTeaModel milkTeaModel = new MilkTeaModel();
 
@@ -62,13 +92,46 @@ public class ProductsDetailController {
 
             List<MilkTeaEntity> relevantProducts = milkTeaService.findRelevantProducts(typeId, id);
 
-            // Lấy tất cả bình luận của sản phẩm
-            List<CommentDTO> comments = commentService.findAllWithUser();
+            Pageable pageable = PageRequest.of(page, size);
 
-            model.addAttribute("comments", comments);
+            // Tìm tất cả các bình luận liên quan đến sản phẩm (không áp dụng lọc reviewText)
+            Page<CommentDTO> allCommentsPage = commentService.findAllWithUserPaged(pageable);
 
+            // Tính trung bình số sao cho tất cả các bình luận (không bị ảnh hưởng bởi filter reviewText)
+            double averageRating = allCommentsPage.getContent().stream()
+                                                  .mapToInt(comment -> Integer.parseInt(comment.getReviewText())) // Convert reviewText (số sao)
+                                                  .average()
+                                                  .orElse(0);
+
+            // Định dạng trung bình số sao với 1 chữ số sau dấu phẩy
+            DecimalFormat df = new DecimalFormat("#.0");
+            String formattedAverageRating = df.format(averageRating);
+            // get flash attributes from previous request
+            String cartMessage = (String) redirectAttributes.getFlashAttributes().get("cartMessage");
+
+            // Thêm giá trị trung bình đã định dạng vào model
+            model.addAttribute("averageRating", formattedAverageRating);
+
+            // Tìm các bình luận theo reviewText nếu có (lọc bình luận khi có search)
+            Page<CommentDTO> commentPage;
+            if (reviewText != null) {
+                // Lọc bình luận theo reviewText (số sao)
+                commentPage = commentService.findByReviewTextPaged(reviewText, pageable);
+            } else {
+                // Nếu không có lọc, lấy tất cả bình luận
+                commentPage = allCommentsPage;
+            if (cartMessage != null) {
+                model.addAttribute("cartMessage", cartMessage);
+            }
+
+            model.addAttribute("comments", commentPage.getContent());
             model.addAttribute("milkTea", milkTeaModel);
             model.addAttribute("relevantProducts", relevantProducts);
+
+            // Thêm phân trang
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", commentPage.getTotalPages());
+            model.addAttribute("totalComments", commentPage.getTotalElements());
 
             return new ModelAndView("user/product_detail", model);
         }
@@ -78,37 +141,59 @@ public class ProductsDetailController {
     }
 
     @PostMapping("/{id}/comment")
-    public String addComment(@PathVariable("id") int productId,
-                             @RequestParam String reviewText,
-                             @RequestParam String commentText,
-                             @AuthenticationPrincipal UserEntity user, // Tự động lấy người dùng đang đăng nhập
-                             ModelMap model) {
+    public String addComment(
+            @PathVariable("id") int productId,
+            @RequestParam String reviewText,
+            @RequestParam String commentText,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            ModelMap model
+    ) {
 
-        log.info("Add comment to product {}.", productId);
+        System.out.println("Received request to add comment for product ID: " + productId);
+
+        // Kiểm tra sản phẩm có tồn tại không
         Optional<MilkTeaEntity> milkTeaOpt = milkTeaService.findByIdMilkTea(productId);
         if (!milkTeaOpt.isPresent()) {
-            log.info("MilkTea {} not found.", productId);
             model.addAttribute("message", "Sản phẩm không tồn tại.");
             return "redirect:/product_detail/" + productId;
         }
 
         MilkTeaEntity milkTea = milkTeaOpt.get();
 
-        // Tạo đối tượng Comment và lưu vào DB
+        // Tạo đối tượng Comment
         Comment comment = Comment.builder()
-                .reviewText(reviewText)
-                .milkTea(milkTea)
-                .comment(commentText)
-                .user(user)
-                .createdAt(new Date())
-                .updatedAt(new Date())
-                .build();
+                                 .reviewText(reviewText)
+                                 .milkTea(milkTea)
+                                 .comment(commentText)
+                                 .user(customUserDetails.getUser())
+                                 .createdAt(new Date())
+                                 .updatedAt(new Date())
+                                 .build();
 
+        // Nếu có ảnh được tải lên, xử lý lưu ảnh
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                // Lấy tên file lưu trữ từ service
+                String storeFilename = storageService.getStorageFilename(imageFile, String.valueOf(comment.getId()));
+
+                // Lưu ảnh vào thư mục lưu trữ
+                storageService.store(imageFile, storeFilename);
+
+                // Lưu đường dẫn ảnh vào đối tượng Comment
+                comment.setImageUrl(storeFilename); // Lưu tên file ảnh vào trường imageUrl
+            } catch (Exception e) {
+                model.addAttribute("message", "Không thể tải ảnh lên: " + e.getMessage());
+                return "redirect:/product_detail/" + productId;
+            }
+        }
+
+        // Lưu comment vào DB
         commentService.save(comment);
 
+        // Chuyển hướng về trang chi tiết sản phẩm
         return "redirect:/product_detail/" + productId;
     }
-
 
     @GetMapping("/check")
     public String check(ModelMap model, @RequestParam("data") String data) {

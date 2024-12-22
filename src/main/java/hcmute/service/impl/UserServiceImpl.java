@@ -152,11 +152,6 @@ public class UserServiceImpl implements IUserService {
         return userRepo.save(user);
     }
 
-//    @Override
-//    public UserEntity findByUser(String username) {
-//        return userRepo.findByUser(username);
-//    }
-
     //Thực hiện xóa username
     @Override
     public void deleteByUsername(String username) {
