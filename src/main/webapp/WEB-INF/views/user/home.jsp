@@ -1,45 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/common/taglib.jsp"%>
+         pageEncoding="UTF-8" %>
+<%@ include file="/common/taglib.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Site meta -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" type="text/css" href="home.css" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- Site meta -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="home.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
 </head>
 <body>
-	<div class="home">
-		<c:if test="${orderMessage != null }">
-			<div id="toast">
-				<div class="toast toast--success">
-					<div class="toast__icon">
-						<i class="fas fa-check-circle"></i>
-					</div>
-					<div class="toast__body">
-						<h3 class="toast__title">Success</h3>
-						<p class="toast__msg">${orderMessage }</p>
-					</div>
-					<a href="/order" class="btn btn-warning ms-2"
-						style="font-size: 12px !important">Xem đơn hàng</a>
-					<div class="toast__close">
-						<i class="fas fa-times"></i>
-					</div>
-				</div>
-			</div>
-		</c:if>
-		<div id="homeSlider" class="carousel slide" data-ride="carousel">
-			<!--Indicators-->
-			<ul class="carousel-indicators">
-				<li data-target="#homeSlider" data-slide-to="0" class="active"></li>
-				<li data-target="#homeSlider" data-slide-to="1"></li>
-				<li data-target="#homeSlider" data-slide-to="2"></li>
-			</ul>
-			<!--SlideShow-->
+<div class="home">
+    <c:if test="${orderMessage != null }">
+        <div id="toast">
+            <div class="toast toast--success">
+                <div class="toast__icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="toast__body">
+                    <h3 class="toast__title">Success</h3>
+                    <p class="toast__msg">${orderMessage }</p>
+                </div>
+                <a href="/order" class="btn btn-warning ms-2"
+                   style="font-size: 12px !important">Xem đơn hàng</a>
+                <div class="toast__close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+    </c:if>
+    <div id="homeSlider" class="carousel slide" data-ride="carousel">
+        <!--Indicators-->
+        <ul class="carousel-indicators">
+            <li data-target="#homeSlider" data-slide-to="0" class="active"></li>
+            <li data-target="#homeSlider" data-slide-to="1"></li>
+            <li data-target="#homeSlider" data-slide-to="2"></li>
+        </ul>
+        <!--SlideShow-->
 			<div class="carousel-inner">
 				<div class="carousel-item active c-item">
 					<img class="c-img"
@@ -55,84 +55,146 @@
 				</div>
 			</div>
 
-			<!--Controls-->
-			<a class="carousel-control-prev" href="#homeSlider" data-slide="prev">
-				<span class="carousel-control-prev-icon"></span>
-			</a> <a class="carousel-control-next" href="#homeSlider"
-				data-slide="next"> <span class="carousel-control-next-icon"></span>
-			</a>
-		</div>
-		<div class="introduce">
-			<div class="row">
-				<div class="col">
-					<div class="introduce-item">
-						<img class="img-introduce"
-							src="https://images.deliveryhero.io/image/fd-ph/LH/h6bn-hero.jpg" />
-					</div>
-				</div>
-				<div class="col">
-					<div class="w-100 d-flex align-items-center justify-content-center"
-						style="height: 100%">
-						<div class="introduce-item">
-							<div class="introduce-title">Câu chuyện thương hiệu</div>
-							<p class="home-desc">Được trồng trọt và chăm chút kỹ lưỡng,
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#homeSlider" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a> <a class="carousel-control-next" href="#homeSlider"
+                data-slide="next"> <span class="carousel-control-next-icon"></span>
+    </a>
+    </div>
+    <div class="introduce">
+        <div class="row">
+            <div class="col">
+                <div class="introduce-item">
+                    <img class="img-introduce"
+                         src="https://images.deliveryhero.io/image/fd-ph/LH/h6bn-hero.jpg"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="w-100 d-flex align-items-center justify-content-center"
+                     style="height: 100%">
+                    <div class="introduce-item">
+                        <div class="introduce-title">Câu chuyện thương hiệu</div>
+                        <p class="home-desc">Được trồng trọt và chăm chút kỹ lưỡng,
 								nuôi dưỡng từ thổ nhưỡng phì nhiêu, nguồn nước mát lành, bao bọc
 								bởi mây và sương cùng nền nhiệt độ mát mẻ quanh năm, những búp
 								trà ở Tây Bắc mập mạp và xanh mướt, hội tụ đầy đủ dưỡng chất,
 								sinh khí, và tinh hoa đất trời.</p>
-							<a href="https://homitatea.com/about/cau-chuyen-thuong-hieu.html"
-								class="btn-explore">Khám phá</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="products">
-			<p class="products-title">Sản phẩm bán chạy</p>
-			<div class="row gx-1">
-				<c:forEach var="milkTea" items="${list1}">
-					<div class="col col-1-2">
-						<a href="/product_detail/${milkTea.idMilkTea}"
-							class="d-block card outstanding-item"> <span
-							class="outstanding-title">BEST SELLER</span>
-							<div class="img-container">
-								<c:url
-									value="/home/image/${milkTea.image != null ? milkTea.image : null }"
-									var="imgUrl" />
-								<img src="${imgUrl}" class="card-image card-img-top" />
-							</div>
-							<div class="card-body">
-								<h5 class="card-title">${milkTea.name}</h5>
-								<p class="card-price">${milkTea.cost}đ</p>
-							</div>
-						</a>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-		<div class="products pb-4">
-			<p class="products-title">Sản phẩm cửa hàng</p>
-			<div class="row gx-1">
-				<c:forEach var="milkTea" items="${list2}">
-					<div class="col col-1-2">
-						<a href="/product_detail/${milkTea.idMilkTea}" class="card">
-							<div class="img-container">
-								<c:url
-									value="/home/image/${milkTea.image != null ? milkTea.image : null }"
-									var="imgUrl" />
-								<img src="${imgUrl}" class="card-image card-img-top" />
-							</div>
-							<div class="card-body">
-								<h5 class="card-title">${milkTea.name}</h5>
-								<p class="card-price">${milkTea.cost}đ</p>
-							</div>
-						</a>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-	</div>
-	<script type="text/javascript"
-		src='<c:url value="/user/js/toast.js" />'></script>
+<%--                        <a href="https://homitatea.com/about/cau-chuyen-thuong-hieu.html"--%>
+                        <a href="/info"
+                           class="btn-explore">Khám phá</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="ads">
+            <a href="#!" target="_top"><img
+                    src="https://raw.githubusercontent.com/AiNga04/image/refs/heads/main/blackFriday.gif"
+                    style="width: 100%"/></a>
+        </div>
+    </section>
+
+    <section class="quick__advertise">
+        <div class="quick-sales">
+            <div class="cardcard">
+                <a href="#!" target="_blank">
+<%--                    <img src="https://static2-images.vnncdn.net/files/publish/2022/10/5/iphone-ifold-1081.gif"--%>
+                    <img src="https://olongha.com/wp-content/uploads/2020/04/cong-thuc-pha-che-tra-sua-ngon.gif"
+                         title="Tra" alt="Tra tuoi nguyen chat"/>
+                </a>
+            </div>
+            <div class="cardcard">
+                <a href="#!" target="_blank">
+<%--                    <img src="https://github.com/AiNga04/image/blob/main/s23-ultra.gif?raw=true"--%>
+<%--                    <img src="https://d2onsou1d2dbvi.cloudfront.net/Uploads/imgQ/20240703/48cd68f1632a8f92d4e288984858db9f.gif"--%>
+                    <img src="https://gcs.tripi.vn/public-tripi/tripi-feed/img/476028avj/anh-mo-ta.png"
+                         title="..." alt="..."/>
+                </a>
+            </div>
+            <div class="cardcard">
+                <a href="#!" target="_blank">
+<%--                    <img src="https://www.icegif.com/wp-content/uploads/2023/01/icegif-1907.gif"--%>
+                    <img src="https://ss-images.saostar.vn/2017/05/04/1263581/ezgif-com-crop-1.gif"
+                         title="..." alt="..."/>
+                </a>
+            </div>
+            <div class="cardcard">
+                <a href="#!" target="_blank">
+<%--                    <img src="https://static-images.vnncdn.net/files/publish/2023/5/28/iphone-15-ultra-14.gif"--%>
+                    <img src="https://olongha.com/wp-content/uploads/2020/04/cong-thuc-pha-che-tra-sua-ngon-rot-sua.gif"
+                         title="..." alt="..."/>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="advertisement">
+        <div class="popup">
+            <!-- Nút đóng -->
+            <button class="close-btn" onclick="closePopup()">×</button>
+            <!-- Hình ảnh quảng cáo -->
+            <img src="https://intphcm.com/data/upload/poster-tra-sua-doc-la.jpg"
+                alt="Quảng cáo Tra sua">
+        </div>
+    </div>
+
+    <div class="products">
+        <p class="products-title">Sản phẩm bán chạy</p>
+        <div class="row gx-1">
+            <c:forEach var="milkTea" items="${list1}">
+                <div class="col col-1-2">
+                    <a href="/product_detail/${milkTea.idMilkTea}"
+                       class="d-block card outstanding-item"> <span
+                            class="outstanding-title">BEST SELLER</span>
+                        <div class="img-container">
+                            <c:url
+                                    value="/home/image/${milkTea.image != null ? milkTea.image : null }"
+                                    var="imgUrl"/>
+                            <img src="${imgUrl}" class="card-image card-img-top"/>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${milkTea.name}</h5>
+                            <p class="card-price">${milkTea.cost}đ</p>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    <div class="products pb-4">
+        <p class="products-title">Sản phẩm cửa hàng</p>
+        <div class="row gx-1">
+            <c:forEach var="milkTea" items="${list2}">
+                <div class="col col-1-2">
+                    <a href="/product_detail/${milkTea.idMilkTea}" class="card">
+                        <div class="img-container">
+                            <c:url
+                                    value="/home/image/${milkTea.image != null ? milkTea.image : null }"
+                                    var="imgUrl"/>
+                            <img src="${imgUrl}" class="card-image card-img-top"/>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">${milkTea.name}</h5>
+                            <p class="card-price">${milkTea.cost}đ</p>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+<script>
+    function closePopup() {
+        document.getElementById('advertisement').style.display = 'none';
+    }
+    window.onload = function () {
+        document.getElementById('advertisement').style.display = 'flex';
+    };
+</script>
+<script type="text/javascript"
+        src='<c:url value="/user/js/toast.js" />'></script>
 </body>
 </html>

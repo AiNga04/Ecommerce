@@ -210,215 +210,183 @@
                             </li>
                         </ul>
                     </div>
-                    <button class="cart-btn-submit payment-btn">Đặt hàng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <%-- Modal for selecting voucher --%>
-    <div class="modal fade" id="voucherModal" tabindex="-1" aria-labelledby="voucherModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="voucherModalLabel">Chọn Voucher</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button class="cart-btn-submit payment-btn"
+                            onclick="location.href='/order-status?idOrder=${userOrder.idOrder}'">
+                        Đặt hàng
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group d-flex">
-                        <input type="text" class="form-control" id="voucherInp" placeholder="Nhập mã giảm giá">
-                        <button class="btn btn-primary ml-2" id="btnCheckVoucher">Kiểm tra</button>
-                    </div>
-
-
-                    <ul class="list-group mt-3" id="voucherList">
-                        <!-- Lặp qua danh sách voucher và tạo list item -->
-                        <c:forEach var="voucher" items="${listVouchers}">
-                            <li class="list-group-item" data-code="${voucher.code}" data-discount="${voucher.discount}"
-                                data-type="${voucher.type}">
-                                    ${voucher.name} -
-                                <c:choose>
-                                    <c:when test="${voucher.type == 'Giảm theo phần trăm'}">
-                                        Giảm ${voucher.discount}%
-                                    </c:when>
-                                    <c:when test="${voucher.type == 'Giảm theo tiền'}">
-                                        Giảm ${voucher.discount} VND
-                                    </c:when>
-                                    <c:when test="${voucher.type == 'Giảm phí vận chuyển'}">
-                                        Miễn phí vận chuyển
-                                    </c:when>
-                                </c:choose>
-                            </li>
-                        </c:forEach>
-                    </ul>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                </div>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript"
-            src='<c:url value="/user/js/payment.js" />'></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document)
-            .ready(function () {
-                $('#btnSelectVoucher')
-                    .click(function () {
-                        $('#voucherModal')
-                            .modal('show');
-                    });
+    <%-- Modal for selecting voucher --%>
+<div class="modal fade" id="voucherModal" tabindex="-1" aria-labelledby="voucherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="voucherModalLabel">Chọn Voucher</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group d-flex">
+                    <input type="text" class="form-control" id="voucherInp" placeholder="Nhập mã giảm giá">
+                    <button class="btn btn-primary ml-2" id="btnCheckVoucher">Kiểm tra</button>
+                </div>
 
-                // $('#voucherList')
-                //     .on('click', '.list-group-item', function () {
-                //         var voucherCode = $(this)
-                //             .data('code');
-                //         var discountValue = $(this)
-                //             .data('discount');
-                //         $('#currentVoucher')
-                //             .text(voucherCode);
-                //         $('#currentDiscount')
-                //             .text(discountValue + ' VND');
-                //
-                //         // Update total amount
-                //         var totalAmount = parseInt($('.payment-final-price')
-                //             .text()
-                //             .replace(/[^0-9]/g, ''));
-                //         var newTotalAmount = totalAmount - discountValue;
-                //         // check if newTotalAmount is less than 0, set it to 0
-                //         newTotalAmount = newTotalAmount < 0 ? 0 : newTotalAmount;
-                //         $('.payment-final-price')
-                //             .text(newTotalAmount + 'đ');
-                //
-                //         $('#voucherModal')
-                //             .modal('hide');
-                //     });
-                //
-                // $('#btnCheckVoucher')
-                //     .click(function () {
-                //         var voucherCode = $('#voucherInp')
-                //             .val();
-                //         // Implement your voucher checking logic here
-                //         // For demonstration, we'll just set the voucher code and discount value
-                //         $('#currentVoucher')
-                //             .text(voucherCode);
-                //         $('#currentDiscount')
-                //             .text('10,000 VND'); // Replace with actual discount value
-                //
-                //         // Update total amount
-                //         var discountValue = 10000; // Replace with actual discount value
-                //         var totalAmount = parseInt($('.payment-final-price')
-                //             .text()
-                //             .replace(/[^0-9]/g, ''));
-                //         var newTotalAmount = totalAmount - discountValue;
-                //         newTotalAmount = newTotalAmount < 0 ? 0 : newTotalAmount;
-                //         $('.payment-final-price')
-                //             .text(newTotalAmount + 'đ');
-                //     });
+                <ul class="list-group mt-3" id="voucherList">
+                    <!-- Lặp qua danh sách voucher và tạo radio button -->
+                    <c:forEach var="voucher" items="${listVouchers}">
+                        <li class="list-group-item">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="voucher" id="voucher-${voucher.code}"
+                                    data-code="${voucher.code}"
+                                    data-discount="${voucher.discount}"
+                                    data-type="${voucher.type}"
+                                    value="${voucher.code}">
+                                <label class="form-check-label" for="voucher-${voucher.code}">
+                                    ${voucher.name} -
+                                    <c:choose>
+                                        <c:when test="${voucher.type == 'Giảm theo phần trăm'}">
+                                            Giảm ${voucher.discount}%
+                                        </c:when>
+                                        <c:when test="${voucher.type == 'Giảm theo tiền'}">
+                                            Giảm ${voucher.discount} VND
+                                        </c:when>
+                                        <c:when test="${voucher.type == 'Giảm phí vận chuyển'}">
+                                            Miễn phí vận chuyển
+                                        </c:when>
+                                    </c:choose>
+                                </label>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
 
-                $('#voucherList')
-                    .on('click', '.list-group-item', function () {
-                        var voucherCode = $(this)
-                            .data('code');
-                        var discountValue = parseInt($(this)
-                            .data('discount'));
-                        var discountType = $(this)
-                            .data('type'); // Assuming you have a data-type attribute for the type
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-warning" id="btnClearVoucher">Bỏ chọn Voucher</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        console.log(discountType);
-                        $('#currentVoucher')
-                            .text(voucherCode);
+<script type="text/javascript" src='<c:url value="/user/js/payment.js" />'></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Biến để theo dõi voucher đã chọn và lưu giá trị ban đầu
+        let selectedVoucher = null;
+        let originalAmount = parseInt($('.payment-final-price').text().replace(/[^0-9]/g, ''));
 
-                        var totalAmount = parseInt($('.payment-final-price')
-                            .text()
-                            .replace(/[^0-9]/g, ''));
-                        var newTotalAmount;
+        $('#btnSelectVoucher').click(function () {
+            $('#voucherModal').modal('show');
+        });
 
-                        if (discountType === 'Giảm theo phần trăm') {
-                            newTotalAmount = totalAmount - (totalAmount * discountValue / 100);
-                            $('#currentDiscount')
-                                .text('Giảm ' + discountValue + '%');
-                        } else if (discountType === 'Giảm theo tiền') {
-                            newTotalAmount = totalAmount - discountValue;
-                            $('#currentDiscount')
-                                .text('Giảm ' + discountValue + ' VND');
-                        } else if (discountType === 'Giảm phí vận chuyển') {
-                            // Assuming shipping cost is a fixed value, e.g., 30000 VND
-                            var shippingCost = 30000;
-                            newTotalAmount = totalAmount - shippingCost;
-                            $('#currentDiscount')
-                                .text('Miễn phí vận chuyển');
-                        } else {
-                            newTotalAmount = totalAmount;
-                            $('#currentDiscount')
-                                .text('');
-                        }
+        // Xử lý khi người dùng chọn voucher
+        $('#voucherList').on('change', 'input[type="radio"][name="voucher"]', function () {
+            // Nếu người dùng click lại vào radio button đã chọn, hủy voucher
+            if (selectedVoucher && selectedVoucher.is(this)) {
+                // Hủy chọn voucher
+                selectedVoucher.prop('checked', false);
+                selectedVoucher = null;
+                $('#currentVoucher').text('');
+                $('#currentDiscount').text('');
 
-                        // Ensure newTotalAmount is not less than 0
-                        newTotalAmount = newTotalAmount < 0 ? 0 : newTotalAmount;
+                // Cập nhật lại giá trị tổng tiền ban đầu (giá chưa áp dụng voucher)
+                $('.payment-final-price').text(originalAmount + 'đ');
 
-                        // Update the final price without formatting
-                        $('.payment-final-price')
-                            .text(newTotalAmount + 'đ');
+                // Kích hoạt lại tất cả radio button
+                $('input[type="radio"][name="voucher"]').prop('disabled', false);
 
-                        // Close the modal
-                        $('#voucherModal')
-                            .modal('hide');
-                    });
+                // Đóng modal
+                $('#voucherModal').modal('hide');
+                return;
+            }
 
-                $('#btnCheckVoucher')
-                    .click(function () {
-                        var voucherCode = $('#voucherInp')
-                            .val();
-                        // Implement your voucher checking logic here
-                        // For demonstration, we'll just set the voucher code and discount value
-                        var discountValue = 10000; // Replace with actual discount value
-                        var discountType = $(this)
-                            .data('type'); // Assuming you have a data-type attribute for the type
+            // Nếu đã có voucher được chọn, bỏ chọn voucher trước đó và chọn voucher mới
+            if (selectedVoucher) {
+                selectedVoucher.prop('checked', false); // Bỏ chọn voucher trước đó
+            }
 
-                        $('#currentVoucher')
-                            .text(voucherCode);
+            selectedVoucher = $(this);
+            var voucherCode = selectedVoucher.data('code');
+            var discountValue = parseInt(selectedVoucher.data('discount'));
+            var discountType = selectedVoucher.data('type');
 
-                        var totalAmount = parseInt($('.payment-final-price')
-                            .text()
-                            .replace(/[^0-9]/g, ''));
-                        var newTotalAmount;
+            // Hiển thị mã voucher đã chọn
+            $('#currentVoucher').text(voucherCode);
 
-                        if (discountType === 'Giảm theo phần trăm') {
-                            newTotalAmount = totalAmount - (totalAmount * discountValue / 100);
-                            $('#currentDiscount')
-                                .text('Giảm ' + discountValue + '%');
-                        } else if (discountType === 'Giảm theo tiền') {
-                            newTotalAmount = totalAmount - discountValue;
-                            $('#currentDiscount')
-                                .text('Giảm ' + discountValue + ' VND');
-                        } else if (discountType === 'Giảm phí vận chuyển') {
-                            // Assuming shipping cost is a fixed value, e.g., 30000 VND
-                            var shippingCost = 30000;
-                            newTotalAmount = totalAmount - shippingCost;
-                            $('#currentDiscount')
-                                .text('Miễn phí vận chuyển');
-                        } else {
-                            newTotalAmount = totalAmount;
-                            $('#currentDiscount')
-                                .text('');
-                        }
+            var newTotalAmount;
 
-                        // Ensure newTotalAmount is not less than 0
-                        newTotalAmount = newTotalAmount < 0 ? 0 : newTotalAmount;
+            // Áp dụng voucher và tính toán giảm giá
+            if (discountType === 'Giảm theo phần trăm') {
+                newTotalAmount = originalAmount - (originalAmount * discountValue / 100);
+                $('#currentDiscount').text('Giảm ' + discountValue + '%');
+            } else if (discountType === 'Giảm theo tiền') {
+                newTotalAmount = originalAmount - discountValue;
+                $('#currentDiscount').text('Giảm ' + discountValue + ' VND');
+            } else if (discountType === 'Giảm phí vận chuyển') {
+                var shippingCost = 30000;
+                newTotalAmount = originalAmount - shippingCost;
+                $('#currentDiscount').text('Miễn phí vận chuyển');
+            } else {
+                newTotalAmount = originalAmount; // Nếu không có voucher, giá trị tổng tiền không thay đổi
+                $('#currentDiscount').text('');
+            }
 
-                        // Update the final price without formatting
-                        $('.payment-final-price')
-                            .text(newTotalAmount + 'đ');
-                    });
-            });
-    </script>
+            // Đảm bảo tổng tiền không nhỏ hơn 0
+            newTotalAmount = newTotalAmount < 0 ? 0 : newTotalAmount;
+
+            // Cập nhật giá trị tổng tiền cuối cùng
+            $('.payment-final-price').text(newTotalAmount + 'đ');
+
+            // Vô hiệu hóa tất cả radio button còn lại
+            $('input[type="radio"][name="voucher"]').prop('disabled', true);
+
+            // Đóng modal
+            $('#voucherModal').modal('hide');
+        });
+
+        // Kiểm tra mã voucher
+        $('#btnCheckVoucher').click(function () {
+            var voucherCode = $('#voucherInp').val();
+
+            if (selectedVoucher) {
+                alert('Voucher đã được chọn! Bạn chỉ có thể chọn một voucher duy nhất.');
+                return;
+            }
+            // Logic kiểm tra voucher ở đây nếu cần
+        });
+
+        // Xử lý khi người dùng nhấn "Bỏ chọn Voucher"
+        $('#btnClearVoucher').click(function () {
+            // Nếu đã chọn voucher, bỏ chọn nó
+            if (selectedVoucher) {
+                selectedVoucher.prop('checked', false);
+                selectedVoucher = null;
+            }
+
+            // Cập nhật lại thông tin voucher
+            $('#currentVoucher').text('');
+            $('#currentDiscount').text('');
+
+            // Cập nhật lại giá trị tổng tiền ban đầu (lấy từ giá trị gốc)
+            $('.payment-final-price').text(originalAmount + 'đ');
+
+            // Kích hoạt lại tất cả radio button
+            $('input[type="radio"][name="voucher"]').prop('disabled', false);
+
+            // Đóng modal
+            $('#voucherModal').modal('hide');
+        });
+    });
+
+
+</script>
+
 </body>
 </html>
