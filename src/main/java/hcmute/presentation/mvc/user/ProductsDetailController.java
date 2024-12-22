@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,11 +61,7 @@ public class ProductsDetailController {
     CookieServiceImpl cookieServiceImpl;
     ICartService cartService;
     IStorageService storageService;
-
-    @Autowired
     ICommentService commentService;
-
-    @Autowired
     IUserService userService;
 
     @GetMapping("/{id}")
@@ -92,7 +89,7 @@ public class ProductsDetailController {
 
             List<MilkTeaEntity> relevantProducts = milkTeaService.findRelevantProducts(typeId, id);
 
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
             // Tìm tất cả các bình luận liên quan đến sản phẩm (không áp dụng lọc reviewText)
             Page<CommentDTO> allCommentsPage = commentService.findAllWithUserPaged(pageable);

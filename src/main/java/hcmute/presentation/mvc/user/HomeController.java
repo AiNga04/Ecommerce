@@ -47,6 +47,11 @@ public class HomeController {
         return "user/home";
     }
 
+    @GetMapping("info")
+    public String Info(ModelMap model, HttpSession session) {
+        return "user/info";
+    }
+
     //Thêm sản phẩm vào mục yêu thíhc
     @GetMapping("home/addtofavorite")
     public RedirectView addToCart(RedirectAttributes redirectAttributes, @RequestParam("id") int id) {
